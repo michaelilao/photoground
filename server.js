@@ -1,7 +1,11 @@
 // Create express app
 var express = require("express")
-var app = express()
+var dotenv = require('dotenv');
 var db = require("./database.js")
+
+dotenv.config();
+var app = express()
+
 // Server port
 var HTTP_PORT = 8000 
 // Start server
