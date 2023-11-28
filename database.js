@@ -1,30 +1,24 @@
 var sqlite3 = require('sqlite3').verbose()
 var md5 = require('md5')
-
+var scripts = require("./migration/init")
 const DBSOURCE = "db.sqlite"
+
+const { ADMIN_USER, ADMIN_PASSWORD, ADMIN_EMAIL } = process.env
 
 let db = new sqlite3.Database(DBSOURCE, (err) => {
     if (err) {
       // Cannot open database
       console.error(err.message)
       throw err
-    }else{
+    } else {
         console.log('Connected to the SQLite database.')
-        db.run(`CREATE TABLE user (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name text, 
-            email text UNIQUE, 
-            password text, 
-            CONSTRAINT email_unique UNIQUE (email)
-            )`,
-        (err) => {
+        db.run(scripts.createUsersTable, (err) => {
             if (err) {
-                // Table already created
-            }else{
-                // Table just created, creating some rows
-                var insert = 'INSERT INTO user (name, email, password) VALUES (?,?,?)'
-                db.run(insert, ["admin","admin@example.com",md5("admin123456")])
-                db.run(insert, ["user","user@example.com",md5("user123456")])
+                
+                console.log("DB has already been initialized", err)
+            } else {
+                // Table just created insert into table
+                db.run(scripts.insertAdminRecord, [ADMIN_USER, ADMIN_EMAIL, md5(ADMIN_PASSWORD)])
             }
         });  
     }
