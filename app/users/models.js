@@ -18,4 +18,15 @@ const register = Joi.object({
     .required(),
 });
 
-module.exports = { register };
+const login = Joi.object({
+  password: Joi.string()
+    .min(8)
+    .max(30)
+    .required(),
+
+  email: Joi.string()
+    .email()
+    .required(),
+});
+
+module.exports = { register, login };

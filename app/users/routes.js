@@ -6,6 +6,8 @@ const { validateBody } = require('../middleware/validate');
 const { authenticate } = require('../middleware/auth');
 
 router.post('/register', validateBody(schemas.register), controller.register);
+router.post('/login', validateBody(schemas.login), controller.login);
+
 router.get('/', authenticate, (req, res) => res.json({ message: 'goosd' }));
 
 module.exports = router;
