@@ -1,4 +1,8 @@
+# Photoground
+
 Creating this project to relearn web app/rest api fundementals
+
+Next Task: Error handling and logging
 
 ## Structure
 
