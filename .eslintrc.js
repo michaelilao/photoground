@@ -23,7 +23,7 @@ module.exports = {
   rules: {
     'prettier/prettier': 'error',
     'no-unused-vars': 'warn',
-    'no-console': 'warn',
+    'no-console': ['warn', { allow: ['debug', 'error'] }],
     'func-names': 'off',
     'no-plusplus': 'off',
     'no-process-exit': 'off',
