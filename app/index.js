@@ -1,16 +1,15 @@
 const fs = require('fs');
 const path = require('path');
-
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
+require('dotenv').config();
 
 // Routes
 const users = require('./users/routes');
 const { ensureExists } = require('./utils');
 
 require('./database'); // Initialize DB
-require('dotenv').config();
 
 const app = express();
 app.use(express.json());
@@ -18,7 +17,8 @@ app.use(cookieParser());
 
 // Logger
 const accessLogStream = fs.createWriteStream(path.join('logs', 'access.log'), { flags: 'a' });
-app.use(morgan('short', { stream: accessLogStream }));
+app.use(morgan('common', { stream: accessLogStream }));
+app.use(morgan('dev'));
 
 // Initialize files directory
 ensureExists('./files/photos', (err) => {
