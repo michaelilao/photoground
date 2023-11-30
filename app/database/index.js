@@ -3,7 +3,8 @@ const sqlite3 = require('sqlite3').verbose();
 const scripts = require('../users/sql');
 
 const initDB = () => {
-  const DBSOURCE = process.env.NODE_ENV === 'dev' ? 'dev-db.sqlite' : 'prod-db.sqlite';
+  const env = process.env.NODE_ENV || 'dev';
+  const DBSOURCE = `${env}-db.sqlite`;
   const db = new sqlite3.Database(DBSOURCE, (initErr) => {
     if (initErr) {
       // Cannot open database
