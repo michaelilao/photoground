@@ -1,3 +1,4 @@
+const bcrypt = require('bcrypt');
 const sqlite3 = require('sqlite3').verbose();
 const scripts = require('../users/sql');
 
@@ -9,11 +10,13 @@ const db = new sqlite3.Database(DBSOURCE, (initErr) => {
     throw initErr;
   }
 
-  console.log('Connected to the SQLite database.');
-  db.run(scripts.createUsersTable, (createAdminErr) => {
+  console.debug('Connected to the SQLite database.');
+  db.run(scripts.createUsersTable, async (createAdminErr) => {
     if (!createAdminErr) {
       const { ADMIN_USER, ADMIN_EMAIL, ADMIN_PASSWORD } = process.env;
-      db.run(scripts.insertUserRecord, [ADMIN_USER, ADMIN_EMAIL, ADMIN_PASSWORD]);
+      const salt = process.env.SALT_ROUNDS || 10;
+      const encryptedPassword = await bcrypt.hash(ADMIN_PASSWORD, Number(salt));
+      db.run(scripts.insertUserRecord, [ADMIN_USER, ADMIN_EMAIL, encryptedPassword]);
     }
   });
 });
