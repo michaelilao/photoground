@@ -9,7 +9,6 @@ module.exports = {
     {
       env: {
         node: true,
-        "jest/globals": true
       },
       files: ['.eslintrc.{js,cjs}'],
       parserOptions: {
@@ -20,7 +19,7 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 'latest',
   },
-  plugins: ['prettier', 'jest'],
+  plugins: ['prettier'],
   rules: {
     'prettier/prettier': 'error',
     'no-unused-vars': 'warn',
