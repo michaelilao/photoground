@@ -9,8 +9,8 @@ require('dotenv').config();
 const users = require('./users/routes');
 const { ensureExists } = require('./utils');
 
-require('./database'); // Initialize DB
-
+require('./database');
+// Initialize DB
 const app = express();
 app.use(express.json());
 app.use(cookieParser());
@@ -28,7 +28,7 @@ ensureExists('./files/photos', (err) => {
 });
 
 // Root endpoint
-app.get('/', (_req, res) => {
+app.get('/', async (_req, res) => {
   res.json({ message: 'Welcome to Photoground API' });
 });
 

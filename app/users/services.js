@@ -47,7 +47,7 @@ const createUser = async (name, email, password) => {
 
     return { user: { id: newUserId }, accessToken: token, tokenAge };
   } catch (err) {
-    return { error: true, message: err.code, status: 500 };
+    return { error: true, message: err.message, status: 500 };
   }
 };
 
