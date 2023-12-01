@@ -7,6 +7,8 @@ require('dotenv').config();
 
 // Routes
 const users = require('./users/routes');
+const photos = require('./photos/routes');
+
 const { ensureExists } = require('./utils');
 
 require('./database');
@@ -35,5 +37,6 @@ app.get('/', async (_req, res) => {
 // Define our routes
 const api = process.env.API_PATH || '/api/v1';
 app.use(`${api}/users`, users);
+app.use(`${api}/photos`, photos);
 
 module.exports = app;
