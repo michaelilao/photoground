@@ -74,6 +74,16 @@ The auth solution I went with for this app is a simple JWT token
 
 #### How it work
 
-## Middleware & Validation
+## Testing
 
-## DB
+For testing I've used supertest and jest to spin up the app API server and run full endpoint testing.
+
+## Long running tasks Architecture.
+
+https://stackoverflow.com/questions/40085654/run-long-running-express-api-process-in-seperate-thread-nodejs
+https://nodejs.org/api/child_process.html
+https://www.freecodecamp.org/news/node-js-child-processes-everything-you-need-to-know-e69498fe970a/
+https://www.freecodecamp.org/news/understanding-node-js-event-driven-architecture-223292fcbc2d/
+https://medium.freecodecamp.com/node-js-streams-everything-you-need-to-know-c9141306be93
+
+### Event Driven Architecture
