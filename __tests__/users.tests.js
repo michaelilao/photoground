@@ -1,9 +1,9 @@
 /* eslint-disable no-undef */
 // Prettier doesnt recognize jest
-
+const fs = require('fs');
 const request = require('supertest');
 const app = require('../app');
-require('dotenv').config();
+const db = require('../app/database');
 
 const testUser = {
   email: 'test@gmail.com',
@@ -30,6 +30,7 @@ describe('POST /api/v1/users/register', () => {
     expect(res.statusCode).toBe(400);
   });
 });
+
 describe('POST /api/v1/users/login', () => {
   it('should login to test user', async () => {
     const res = await request(app).post(`${process.env.API_PATH}/users/login`).send({
@@ -40,4 +41,11 @@ describe('POST /api/v1/users/login', () => {
     const { id } = res.body.data;
     expect(id).toBe(testUser.id);
   });
+});
+
+afterAll(async () => {
+  const connection = await db();
+  connection.close();
+  const filePath = 'test-db.sqlite';
+  fs.unlinkSync(filePath);
 });

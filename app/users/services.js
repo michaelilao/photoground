@@ -8,8 +8,9 @@ const tokenAge = 60 * 30; // 30 mins
 const createUser = async (name, email, password) => {
   try {
     // Check if user exists in DB
+    const connection = await db();
     const userExists = await new Promise((resolve, reject) => {
-      db.get(scripts.getUserRecordByEmail, [email], async (err, row) => {
+      connection.get(scripts.getUserRecordByEmail, [email], async (err, row) => {
         if (err) {
           reject(err);
         }
@@ -32,7 +33,7 @@ const createUser = async (name, email, password) => {
 
     // Insert user into DB
     const newUserId = await new Promise((resolve, reject) => {
-      db.run(scripts.insertUserRecord, [name, email, encryptedPassword], function (err) {
+      connection.run(scripts.insertUserRecord, [name, email, encryptedPassword], function (err) {
         if (err) {
           reject(err);
         }
@@ -55,8 +56,9 @@ const createUser = async (name, email, password) => {
 const loginUser = async (email, password) => {
   try {
     // Check if user exists in DB
+    const connection = await db();
     const user = await new Promise((resolve, reject) => {
-      db.get(scripts.getUserRecordByEmail, [email], async (err, row) => {
+      connection.get(scripts.getUserRecordByEmail, [email], async (err, row) => {
         if (err) {
           reject(err);
         }

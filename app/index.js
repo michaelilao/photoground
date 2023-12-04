@@ -7,10 +7,11 @@ const multer = require('multer');
 require('dotenv').config();
 const { ensureExists } = require('./utils');
 
+const port = process.env.API_PORT || 4000;
+
 // Routes
 const users = require('./users/routes');
 const photos = require('./photos/routes');
-require('./database');
 
 // Initialize files directory
 ensureExists('./files/photos', (err) => {
@@ -18,7 +19,8 @@ ensureExists('./files/photos', (err) => {
     console.error('Error occured during ./files/photo directory creation', err);
   }
 });
-// Initialize DB and app
+
+// Initialize app
 const app = express();
 app.use(express.json());
 app.use(multer({ dest: './files/raw' }).any());
@@ -38,5 +40,15 @@ app.get('/', async (_req, res) => {
 const api = process.env.API_PATH || '/api/v1';
 app.use(`${api}/users`, users);
 app.use(`${api}/photos`, photos);
+
+// Initalize DB and wait to start until it is done
+require('./database')().then(() => {
+  console.debug('db initialized');
+
+  // Start server
+  app.listen(port, () => {
+    console.debug(`server running on port ${port}`);
+  });
+});
 
 module.exports = app;
