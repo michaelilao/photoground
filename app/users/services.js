@@ -82,7 +82,7 @@ const loginUser = async (email, password) => {
     delete user.user_id;
 
     const tokenKey = process.env.TOKEN_KEY;
-    const token = jwt.sign({ id: user.user_id, email }, tokenKey, {
+    const token = jwt.sign({ id: user.id, email }, tokenKey, {
       expiresIn: tokenAge,
     });
 
@@ -92,4 +92,5 @@ const loginUser = async (email, password) => {
     return { error: true, message: err.code, status: 500 };
   }
 };
+
 module.exports = { createUser, loginUser };
