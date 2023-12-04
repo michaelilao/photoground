@@ -23,6 +23,7 @@ const register = async (req, res) => {
       data: user.user,
     });
   } catch (err) {
+    console.error(err);
     return res.status(501).json({
       error: true,
       message: 'Internal Server Error',
@@ -46,7 +47,6 @@ const login = async (req, res) => {
       httpOnly: true,
       maxAge: user.tokenAge * 1000, // convert 2h to ms; maxAge uses miliseconds
     });
-
     return res.status(200).json({
       error: false,
       message: 'User logged in Succesfully',
@@ -54,6 +54,7 @@ const login = async (req, res) => {
       data: user.user,
     });
   } catch (err) {
+    console.error(err);
     return res.status(501).json({
       error: true,
       message: 'Internal Server Error',

@@ -1,6 +1,5 @@
 /* eslint-disable no-undef */
 // Prettier doesnt recognize jest
-const fs = require('fs');
 
 const request = require('supertest');
 const app = require('../app');
@@ -14,8 +13,7 @@ const testUser = {
 
 describe('POST /api/v1/users/register', () => {
   it('should create a new user', async () => {
-    const server = await request(app);
-    const res = await server.post(`${process.env.API_PATH}/users/register`).send(testUser);
+    const res = await request(app).post(`${process.env.API_PATH}/users/register`).send(testUser);
     expect(res.statusCode).toBe(200);
     const { id } = res.body.data;
     testUser.id = id;
@@ -42,9 +40,4 @@ describe('POST /api/v1/users/login', () => {
     const { id } = res.body.data;
     expect(id).toBe(testUser.id);
   });
-});
-
-afterAll(() => {
-  const filePath = 'test-db.sqlite';
-  fs.unlinkSync(filePath);
 });

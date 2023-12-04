@@ -14,7 +14,7 @@ const createUser = async (name, email, password) => {
           reject(err);
         }
 
-        if (row && row?.id) {
+        if (row && row?.user_id) {
           return resolve(true);
         }
 
@@ -47,6 +47,7 @@ const createUser = async (name, email, password) => {
 
     return { user: { id: newUserId }, accessToken: token, tokenAge };
   } catch (err) {
+    console.error(err);
     return { error: true, message: err.message, status: 500 };
   }
 };
@@ -73,15 +74,19 @@ const loginUser = async (email, password) => {
       return { error: true, message: 'Email or Password do not match, please check and try again.', status: 400 };
     }
 
+    user.id = user.user_id;
     // Remove hashed password from user object
     delete user.password;
+    delete user.user_id;
+
     const tokenKey = process.env.TOKEN_KEY;
-    const token = jwt.sign({ id: 1, email }, tokenKey, {
+    const token = jwt.sign({ id: user.user_id, email }, tokenKey, {
       expiresIn: tokenAge,
     });
 
     return { user, accessToken: token, tokenAge };
   } catch (err) {
+    console.error(err);
     return { error: true, message: err.code, status: 500 };
   }
 };
