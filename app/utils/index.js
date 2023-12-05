@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-function ensureExists(path, cb) {
+const ensureExists = (path, cb) => {
   const mask = 0o744; // Default R/W permissions
 
   fs.mkdir(path, { recursive: true, mask }, (err) => {
@@ -9,5 +9,7 @@ function ensureExists(path, cb) {
       else cb(err); // Something else went wrong
     } else cb(null); // Successfully created folder
   });
-}
+};
+
+const handleServiceErrors = () => {};
 module.exports = { ensureExists };

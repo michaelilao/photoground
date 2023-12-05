@@ -2,7 +2,6 @@
 const Joi = require('joi');
 
 const upload = Joi.object({
-  filename: Joi.string(),
   files: Joi.array()
     .items(
       Joi.object({
@@ -15,7 +14,9 @@ const upload = Joi.object({
         path: Joi.string(),
         size: Joi.number(),
       }),
-    ),
+    )
+    .required()
+    .min(1),
 });
 
 module.exports = { upload };

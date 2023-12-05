@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const db = require('../database');
 const scripts = require('./sql');
 
-const tokenAge = 60 * 30; // 30 mins
+const tokenAge = 30; // 60 * 30; // 30 mins
 
 const createUser = async (name, email, password) => {
   try {

@@ -1,7 +1,9 @@
+const { createPhotosDirectory } = require('./services');
+
 const upload = async (req, res) => {
   try {
     // Check if users folder exists, if not create it
-    console.log(req.user.id);
+    await createPhotosDirectory(req.user.id);
     // Create a status record for the request
 
     // Create a photo record for each uploaded file

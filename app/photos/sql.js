@@ -7,3 +7,4 @@ exports.createUsersTable = `CREATE TABLE users (id INTEGER PRIMARY KEY AUTOINCRE
 exports.insertUserRecord = 'INSERT INTO users (name, email, password) VALUES (?,?,?)';
 
 exports.getUserRecordByEmail = 'SELECT * FROM users WHERE users.email = ?';
+exports.getUserById = 'SELECT * FROM users WHERE users.user_id = ?';

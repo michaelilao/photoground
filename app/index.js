@@ -6,6 +6,7 @@ const morgan = require('morgan');
 const multer = require('multer');
 require('dotenv').config();
 const { ensureExists } = require('./utils');
+const { photoPath, logPath, rawPath } = require('./config');
 
 const port = process.env.API_PORT || 4000;
 
@@ -14,20 +15,20 @@ const users = require('./users/routes');
 const photos = require('./photos/routes');
 
 // Initialize files directory
-ensureExists('./files/photos', (err) => {
+ensureExists(photoPath, (err) => {
   if (err) {
-    console.error('Error occured during ./files/photo directory creation', err);
+    console.error('Error occured during photo directory creation', err);
   }
 });
 
 // Initialize app
 const app = express();
 app.use(express.json());
-app.use(multer({ dest: './files/raw' }).any());
+app.use(multer({ dest: rawPath }).any());
 app.use(cookieParser());
 
 // Logger
-const accessLogStream = fs.createWriteStream(path.join('logs', 'access.log'), { flags: 'a' });
+const accessLogStream = fs.createWriteStream(path.join(logPath, 'access.log'), { flags: 'a' });
 app.use(morgan('common', { stream: accessLogStream }));
 app.use(morgan('dev'));
 

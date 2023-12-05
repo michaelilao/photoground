@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-function authenticate(req, res, next) {
+const authenticate = (req, res, next) => {
   const token = req.cookies.jwt || req.headers?.authorization?.split(' ')[1];
 
   if (!token) {
@@ -17,6 +17,6 @@ function authenticate(req, res, next) {
   } catch (err) {
     return res.status(401).json({ error: true, message: 'Invalid Token', status: 401 });
   }
-}
+};
 
 module.exports = { authenticate };
