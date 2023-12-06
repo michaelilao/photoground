@@ -1,9 +1,9 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const crypto = require('crypto');
 const db = require('../database');
 const scripts = require('./sql');
-
-const tokenAge = 30; // 60 * 30; // 30 mins
+const { tokenAge } = require('../config');
 
 const createUser = async (name, email, password) => {
   try {
@@ -33,7 +33,8 @@ const createUser = async (name, email, password) => {
 
     // Insert user into DB
     const newUserId = await new Promise((resolve, reject) => {
-      connection.run(scripts.insertUserRecord, [name, email, encryptedPassword], function (err) {
+      const userId = crypto.randomUUID();
+      connection.run(scripts.insertUserRecord, [userId, name, email, encryptedPassword], function (err) {
         if (err) {
           reject(err);
         }

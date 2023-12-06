@@ -7,6 +7,7 @@ const upload = async (req, res) => {
     // Create a status record for the request
 
     // Create a photo record for each uploaded file
+    console.log(req.body.files);
     // Compress photos and upload them to their user folder Async
 
     // Once status for all photos are done, update status to done

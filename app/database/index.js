@@ -1,5 +1,6 @@
 const bcrypt = require('bcrypt');
 const sqlite3 = require('sqlite3').verbose();
+const crypto = require('crypto');
 const userScripts = require('../users/sql');
 const statusScripts = require('../utils/sql');
 
@@ -31,7 +32,8 @@ const initDB = async () => {
             const { ADMIN_USER, ADMIN_EMAIL, ADMIN_PASSWORD } = process.env;
             const salt = process.env.SALT_ROUNDS || 10;
             const encryptedPassword = await bcrypt.hash(ADMIN_PASSWORD, Number(salt));
-            db.run(userScripts.insertUserRecord, [ADMIN_USER, ADMIN_EMAIL, encryptedPassword]);
+            const userId = crypto.randomUUID();
+            db.run(userScripts.insertUserRecord, [userId, ADMIN_USER, ADMIN_EMAIL, encryptedPassword]);
           }
 
           resolveUsers(true);

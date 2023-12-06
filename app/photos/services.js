@@ -3,7 +3,7 @@ const scripts = require('./sql');
 const { photoPath } = require('../config');
 const { ensureExists } = require('../utils');
 
-const getUserPhotoPath = (userId, name) => `${photoPath}/${userId}_${name}`;
+const getUserPhotoPath = (userId) => `${photoPath}/${userId}`;
 const createPhotosDirectory = async (userId) => {
   try {
     const connection = await db();
@@ -22,7 +22,7 @@ const createPhotosDirectory = async (userId) => {
     });
 
     // Initialize files directory
-    ensureExists(getUserPhotoPath(user.user_id, user.name), (err) => {
+    ensureExists(getUserPhotoPath(user.user_id), (err) => {
       if (err) {
         throw new Error('Error occured during photo directory creation', err);
       }
