@@ -32,13 +32,27 @@ const createUser = async (name, email, password) => {
     const encryptedPassword = await bcrypt.hash(password, Number(salt));
 
     // Insert user into DB
-    const newUserId = await new Promise((resolve, reject) => {
+    await new Promise((resolve, reject) => {
       const userId = crypto.randomUUID();
-      connection.run(scripts.insertUserRecord, [userId, name, email, encryptedPassword], function (err) {
+      connection.run(scripts.insertUserRecord, [userId, name, email, encryptedPassword], (err) => {
         if (err) {
           reject(err);
         }
-        resolve(this.lastID);
+        resolve();
+      });
+    });
+
+    const newUserId = await new Promise((resolve, reject) => {
+      connection.get(scripts.getUserRecordByEmail, [email], async (err, row) => {
+        if (err) {
+          reject(err);
+        }
+
+        if (row && row?.user_id) {
+          resolve(row?.user_id);
+        } else {
+          reject(err);
+        }
       });
     });
 

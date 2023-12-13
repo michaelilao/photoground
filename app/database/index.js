@@ -1,11 +1,12 @@
 const bcrypt = require('bcrypt');
 const sqlite3 = require('sqlite3').verbose();
 const crypto = require('crypto');
+const { dbPath } = require('../config');
 const userScripts = require('../users/sql');
 const statusScripts = require('../utils/sql');
 
 const initDB = async () => {
-  const DBSOURCE = `${process.env.NODE_ENV}-db.sqlite`;
+  const DBSOURCE = dbPath;
   const connection = await new Promise((resolve) => {
     const db = new sqlite3.Database(DBSOURCE, async (initErr) => {
       if (initErr) {

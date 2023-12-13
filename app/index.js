@@ -28,9 +28,14 @@ app.use(multer({ dest: rawPath }).any());
 app.use(cookieParser());
 
 // Logger
-const accessLogStream = fs.createWriteStream(path.join(logPath, 'access.log'), { flags: 'a' });
-app.use(morgan('common', { stream: accessLogStream }));
-app.use(morgan('dev'));
+ensureExists(logPath, (err) => {
+  if (err) {
+    console.error('Error occured during photo directory creation', err);
+  }
+  const accessLogStream = fs.createWriteStream(path.join(logPath, 'access.log'), { flags: 'a' });
+  app.use(morgan('common', { stream: accessLogStream }));
+  app.use(morgan('dev'));
+});
 
 // Root endpoint
 app.get('/', async (_req, res) => {

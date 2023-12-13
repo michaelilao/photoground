@@ -4,6 +4,7 @@ const fs = require('fs');
 const request = require('supertest');
 const app = require('../app');
 const db = require('../app/database');
+const { dbPath, logPath } = require('../app/config');
 
 const testUser = {
   email: 'test@gmail.com',
@@ -46,6 +47,9 @@ describe('POST /api/v1/users/login', () => {
 afterAll(async () => {
   const connection = await db();
   connection.close();
-  const filePath = 'test-db.sqlite';
-  fs.unlinkSync(filePath);
+  fs.unlinkSync(dbPath);
+
+  const filesPath = `./${process.env.NODE_ENV}-files`;
+  fs.rmSync(filesPath, { recursive: true, force: true });
+  fs.rmSync(logPath, { recursive: true, force: true });
 });
