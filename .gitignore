@@ -130,6 +130,6 @@ dist
 
 # Custom
 *.sqlite
-files/
-.logs/*
+*-files/
+*-logs/*
 uploads
