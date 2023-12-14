@@ -1,7 +1,10 @@
+const fs = require('fs');
 const db = require('../database');
 const userScripts = require('../users/sql');
+const photoScripts = require('./sql');
 const { photoPath } = require('../config');
 const { ensureExists } = require('../utils');
+const { uploadStatus } = require('../utils/enums');
 
 const getUserPhotoPath = (userId) => `${photoPath}/${userId}`;
 const createPhotosDirectory = async (userId) => {
@@ -33,5 +36,32 @@ const createPhotosDirectory = async (userId) => {
     return { error: true, message: err.message, status: 500 };
   }
 };
-const createPhotoRecords = (files, userId) => {};
+
+const createPhotoRecords = async (files, userId) => {
+  const connection = await db();
+  const batchId = crypto.randomUUID();
+
+  await Promise.all(
+    files.map(async (file) => {
+      const photoType = file.mimetype;
+      const name = file.originalname;
+      const photoId = crypto.randomUUID();
+      const { pending } = uploadStatus;
+
+      console.log('starting', name);
+      connection.run(photoScripts.insertPhotoRecord, [photoId, userId, name, photoType, pending, batchId], async (err) => {
+        console.log('running', name);
+        if (err) {
+          console.error(err);
+          return;
+        }
+
+        await fs.renameSync();
+        console.log('f');
+      });
+    }),
+  );
+
+  return batchId;
+};
 module.exports = { createPhotosDirectory, createPhotoRecords };

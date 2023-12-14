@@ -15,7 +15,6 @@ const upload = async (req, res) => {
     // Create a status record for the request TODO to optimize
 
     // Create a photo record for each uploaded file
-    console.log(req.body.files);
     const photosStatus = await createPhotoRecords(req.body.files, req.user.id);
     // Compress photos and upload them to their user folder Async
 

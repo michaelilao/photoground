@@ -13,6 +13,12 @@ const port = process.env.API_PORT || 4000;
 const users = require('./users/routes');
 const photos = require('./photos/routes');
 
+// Initialize app
+const app = express();
+app.use(express.json());
+app.use(multer({ dest: rawPath }).any());
+app.use(cookieParser());
+
 // Initialize files directory
 ensureExists(photoPath, (err) => {
   if (err) {
@@ -20,20 +26,14 @@ ensureExists(photoPath, (err) => {
   }
 });
 
-// Initialize app
-const app = express();
-app.use(express.json());
-app.use(multer({ dest: rawPath }).any());
-app.use(cookieParser());
-
 // Initialize logger folders and logger
+app.use(morgan('dev'));
 ensureExists(logPath, (err) => {
   if (err) {
-    console.error('Error occured during photo directory creation', err);
+    console.error('Error occured during log directory creation', err);
   }
   const accessLogStream = fs.createWriteStream(path.join(logPath, 'access.log'), { flags: 'a' });
   app.use(morgan('common', { stream: accessLogStream }));
-  app.use(morgan('dev'));
 });
 
 // Root endpoint

@@ -11,5 +11,4 @@ const ensureExists = (path, cb) => {
   });
 };
 
-const handleServiceErrors = () => {};
 module.exports = { ensureExists };
