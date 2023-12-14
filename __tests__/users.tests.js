@@ -16,8 +16,8 @@ describe('POST /api/v1/users/register', () => {
   it('should create a new user', async () => {
     const res = await request(app).post(`${process.env.API_PATH}/users/register`).send(testUser);
     expect(res.statusCode).toBe(200);
-    const { id } = res.body.data;
-    testUser.id = id;
+    const { userId } = res.body.data;
+    testUser.userId = userId;
   });
 });
 
@@ -39,8 +39,8 @@ describe('POST /api/v1/users/login', () => {
       password: testUser.password,
     });
     expect(res.statusCode).toBe(200);
-    const { id } = res.body.data;
-    expect(id).toBe(testUser.id);
+    const { userId } = res.body.data;
+    expect(userId).toBe(testUser.userId);
   });
 });
 

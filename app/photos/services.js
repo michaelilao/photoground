@@ -1,5 +1,5 @@
 const db = require('../database');
-const scripts = require('./sql');
+const userScripts = require('../users/sql');
 const { photoPath } = require('../config');
 const { ensureExists } = require('../utils');
 
@@ -8,31 +8,30 @@ const createPhotosDirectory = async (userId) => {
   try {
     const connection = await db();
     const user = await new Promise((resolve, reject) => {
-      connection.get(scripts.getUserById, [userId], async (err, row) => {
+      connection.get(userScripts.getUserById, [userId], async (err, row) => {
         if (err) {
           reject(err);
         }
 
-        if (row && row?.user_id) {
+        if (row && row?.userId) {
           return resolve(row);
         }
 
         return resolve(false);
       });
     });
-
     // Initialize files directory
-    ensureExists(getUserPhotoPath(user.user_id), (err) => {
+    ensureExists(getUserPhotoPath(user.userId), (err) => {
       if (err) {
         throw new Error('Error occured during photo directory creation', err);
       }
     });
 
-    return user;
-    // return { user: { id: newUserId }, accessToken: token, tokenAge };
+    return { error: false };
   } catch (err) {
     console.error(err);
     return { error: true, message: err.message, status: 500 };
   }
 };
-module.exports = { createPhotosDirectory };
+const createPhotoRecords = (files, userId) => {};
+module.exports = { createPhotosDirectory, createPhotoRecords };

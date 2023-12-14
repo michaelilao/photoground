@@ -3,7 +3,6 @@ const { createUser, loginUser } = require('./services');
 const register = async (req, res) => {
   try {
     const { name, email, password } = req.body;
-    // Validate and clean params
 
     const user = await createUser(name, email, password);
 
@@ -13,7 +12,7 @@ const register = async (req, res) => {
 
     res.cookie('jwt', user.accessToken, {
       httpOnly: true,
-      maxAge: user.tokenAge * 1000, // convert 2h to ms; maxAge uses miliseconds
+      maxAge: user.tokenAge * 1000,
     });
 
     return res.status(200).json({
@@ -35,8 +34,6 @@ const register = async (req, res) => {
 const login = async (req, res) => {
   try {
     const { email, password } = req.body;
-    // Validate and clean params
-
     const user = await loginUser(email, password);
 
     if (user.error) {
@@ -45,7 +42,7 @@ const login = async (req, res) => {
 
     res.cookie('jwt', user.accessToken, {
       httpOnly: true,
-      maxAge: user.tokenAge * 1000, // convert 2h to ms; maxAge uses miliseconds
+      maxAge: user.tokenAge * 1000,
     });
     return res.status(200).json({
       error: false,

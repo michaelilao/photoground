@@ -3,6 +3,7 @@ const sqlite3 = require('sqlite3').verbose();
 const crypto = require('crypto');
 const { dbPath } = require('../config');
 const userScripts = require('../users/sql');
+const photoScripts = require('../photos/sql');
 const statusScripts = require('../utils/sql');
 
 const initDB = async () => {
@@ -14,6 +15,11 @@ const initDB = async () => {
         console.error(initErr);
         throw initErr;
       }
+
+      // Enable foreign key support
+      await new Promise((resolveForeignKeys) => {
+        db.get('PRAGMA foreign_keys = ON').then(resolveForeignKeys(true));
+      });
 
       // Try to create status table
       await new Promise((resolveStatus) => {
@@ -34,10 +40,17 @@ const initDB = async () => {
             const salt = process.env.SALT_ROUNDS || 10;
             const encryptedPassword = await bcrypt.hash(ADMIN_PASSWORD, Number(salt));
             const userId = crypto.randomUUID();
-            db.run(userScripts.insertUserRecord, [userId, ADMIN_USER, ADMIN_EMAIL, encryptedPassword]);
+            db.run(userScripts.insertUser, [userId, ADMIN_USER, ADMIN_EMAIL, encryptedPassword]);
           }
 
           resolveUsers(true);
+        });
+      });
+
+      // Try to create photos table
+      await new Promise((resolvePhotos) => {
+        db.run(photoScripts.createTablePhotos, async () => {
+          resolvePhotos(true);
         });
       });
 

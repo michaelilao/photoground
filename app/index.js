@@ -10,7 +10,6 @@ const { photoPath, logPath, rawPath } = require('./config');
 
 const port = process.env.API_PORT || 4000;
 
-// Routes
 const users = require('./users/routes');
 const photos = require('./photos/routes');
 
@@ -27,7 +26,7 @@ app.use(express.json());
 app.use(multer({ dest: rawPath }).any());
 app.use(cookieParser());
 
-// Logger
+// Initialize logger folders and logger
 ensureExists(logPath, (err) => {
   if (err) {
     console.error('Error occured during photo directory creation', err);
