@@ -29,5 +29,6 @@ module.exports = {
     'no-process-exit': 'off',
     'class-methods-use-this': 'off',
     'max-len': ['error', { code: 150 }],
+    'comma-dangle': 0,
   },
 };
