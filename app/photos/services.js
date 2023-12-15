@@ -1,4 +1,5 @@
 const fs = require('fs');
+const crypto = require('crypto');
 const db = require('../database');
 const userScripts = require('../users/sql');
 const photoScripts = require('./sql');
@@ -41,26 +42,39 @@ const createPhotoRecords = async (files, userId) => {
   const connection = await db();
   const batchId = crypto.randomUUID();
 
-  await Promise.all(
-    files.map(async (file) => {
-      const photoType = file.mimetype;
-      const name = file.originalname;
-      const photoId = crypto.randomUUID();
-      const { pending } = uploadStatus;
+  // Run this insertion and photo upload async in the background
+  files.forEach(async (file) => {
+    const photoType = file.mimetype;
+    const name = file.originalname;
+    const photoId = crypto.randomUUID();
+    const { pending } = uploadStatus;
 
-      console.log('starting', name);
-      connection.run(photoScripts.insertPhotoRecord, [photoId, userId, name, photoType, pending, batchId], async (err) => {
-        console.log('running', name);
-        if (err) {
-          console.error(err);
-          return;
+    connection.run(photoScripts.insertPhoto, [photoId, userId, name, photoType, pending, batchId], async (insertErr) => {
+      if (insertErr) {
+        console.error(insertErr);
+        // THINK: How to handle insertion errors
+        return;
+      }
+
+      const currentPath = `${file.destination}/${file.filename}`;
+      const newPath = `${getUserPhotoPath(userId)}/${file.filename}`;
+
+      // TODO: Compress photos and upload them to their user folder Async
+      fs.rename(currentPath, newPath, (moveErr) => {
+        let status = uploadStatus.complete;
+        if (moveErr) {
+          console.error(insertErr);
+          status = uploadStatus.error;
         }
 
-        await fs.renameSync();
-        console.log('f');
+        connection.run(photoScripts.updatePhotoStatus, [status, photoId], (updateErr) => {
+          if (updateErr) {
+            console.error(updateErr);
+          }
+        });
       });
-    }),
-  );
+    });
+  });
 
   return batchId;
 };

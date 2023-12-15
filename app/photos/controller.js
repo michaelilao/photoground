@@ -15,15 +15,14 @@ const upload = async (req, res) => {
     // Create a status record for the request TODO to optimize
 
     // Create a photo record for each uploaded file
-    const photosStatus = await createPhotoRecords(req.body.files, req.user.id);
-    // Compress photos and upload them to their user folder Async
+    const batchId = await createPhotoRecords(req.body.files, req.user.id);
 
     // Once status for all photos are done, update status to done
     return res.status(200).json({
       error: false,
       message: 'Photos uploaded Succesfully',
       status: 200,
-      data: {},
+      data: { batchId },
     });
   } catch (err) {
     console.error(err);
