@@ -1,4 +1,4 @@
-const { createPhotosDirectory, createPhotoRecords } = require('./services');
+const { createPhotosDirectory, createPhotoRecords, getPhotoBatchStatus } = require('./services');
 
 const upload = async (req, res) => {
   try {
@@ -12,12 +12,9 @@ const upload = async (req, res) => {
       });
     }
 
-    // Create a status record for the request TODO to optimize
-
-    // Create a photo record for each uploaded file
+    // Create a photo record for each uploaded file and move to user folder
     const batchId = await createPhotoRecords(req.body.files, req.user.id);
 
-    // Once status for all photos are done, update status to done
     return res.status(200).json({
       error: false,
       message: 'Photos uploaded Succesfully',
@@ -33,4 +30,25 @@ const upload = async (req, res) => {
     });
   }
 };
-module.exports = { upload };
+
+const status = async (req, res) => {
+  try {
+    const { batchId } = req.query;
+    const photosStatus = await getPhotoBatchStatus(batchId);
+
+    return res.status(200).json({
+      error: false,
+      message: 'Batch Status Fetched Succesfully',
+      status: 200,
+      data: { batchId, photos: photosStatus },
+    });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({
+      error: true,
+      message: 'Internal Server Error',
+      status: 500,
+    });
+  }
+};
+module.exports = { upload, status };

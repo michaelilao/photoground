@@ -11,4 +11,17 @@ const validateBody = (schema) => (req, res, next) => {
   return next();
 };
 
-module.exports = { validateBody };
+const validateParams = (schema) => (req, res, next) => {
+  const { error } = schema.validate(req.query);
+  if (error) {
+    return res.status(400).json({
+      error: true,
+      message: error.message,
+      status: 400,
+    });
+  }
+
+  return next();
+};
+
+module.exports = { validateBody, validateParams };

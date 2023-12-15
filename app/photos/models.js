@@ -19,4 +19,7 @@ const upload = Joi.object({
     .min(1),
 });
 
-module.exports = { upload };
+const status = Joi.object({
+  batchId: Joi.string().required()
+});
+module.exports = { upload, status };

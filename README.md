@@ -19,7 +19,7 @@ Why separate app and server?
 ### 3-Layer architecture
 
 1. **Web Layer**: Responsible for sending, recieving and validating HTTP requests. (routes, controllers and middleware).
-2. **Service Layer**: Will hold our business logic.
+2. **Service Layer**: Will hold our business logic. Should be fully seperate from all http related things (status, req, res, etc...)
 3. **Data Access Layer**: Will be responsible for reading/writing to our DB.
 
 #### Web Layer

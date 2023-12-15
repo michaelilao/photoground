@@ -12,4 +12,4 @@ exports.getUserByEmail = 'SELECT user_id as userId, name, email FROM users WHERE
 
 exports.getUserById = 'SELECT user_id as userId, name, email FROM users WHERE users.user_id = ?';
 
-exports.getUserAllByEmail = 'SELECT user_id as userId, name, email, password FROM users WHERE users.email = ?';
+exports.getUserPasswordByEmail = 'SELECT user_id as userId, name, email, password FROM users WHERE users.email = ?';

@@ -75,7 +75,7 @@ const loginUser = async (email, password) => {
     // Check if user exists in DB
     const connection = await db();
     const user = await new Promise((resolve, reject) => {
-      connection.get(scripts.getUserAllByEmail, [email], async (err, row) => {
+      connection.get(scripts.getUserPasswordByEmail, [email], async (err, row) => {
         if (err) {
           reject(err);
         }

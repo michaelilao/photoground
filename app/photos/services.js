@@ -1,5 +1,6 @@
 const fs = require('fs');
 const crypto = require('crypto');
+const { setTimeout } = require('timers/promises');
 const db = require('../database');
 const userScripts = require('../users/sql');
 const photoScripts = require('./sql');
@@ -37,13 +38,12 @@ const createPhotosDirectory = async (userId) => {
     return { error: true, message: err.message, status: 500 };
   }
 };
-
 const createPhotoRecords = async (files, userId) => {
   const connection = await db();
   const batchId = crypto.randomUUID();
 
   // Run this insertion and photo upload async in the background
-  files.forEach(async (file) => {
+  files.forEach((file) => {
     const photoType = file.mimetype;
     const name = file.originalname;
     const photoId = crypto.randomUUID();
@@ -60,6 +60,9 @@ const createPhotoRecords = async (files, userId) => {
       const newPath = `${getUserPhotoPath(userId)}/${file.filename}`;
 
       // TODO: Compress photos and upload them to their user folder Async
+      // Mocking compression time
+      await setTimeout(10000);
+
       fs.rename(currentPath, newPath, (moveErr) => {
         let status = uploadStatus.complete;
         if (moveErr) {
@@ -78,4 +81,18 @@ const createPhotoRecords = async (files, userId) => {
 
   return batchId;
 };
-module.exports = { createPhotosDirectory, createPhotoRecords };
+
+const getPhotoBatchStatus = async (batchId) => {
+  const connection = await db();
+
+  const photoBatch = await new Promise((resolve, reject) => {
+    connection.all(photoScripts.getPhotosByBatchId, [batchId], (err, rows) => {
+      if (err) {
+        reject(err);
+      }
+      resolve(rows);
+    });
+  });
+  return photoBatch;
+};
+module.exports = { createPhotosDirectory, createPhotoRecords, getPhotoBatchStatus };
