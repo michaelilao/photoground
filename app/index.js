@@ -3,10 +3,9 @@ const path = require('path');
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
-const multer = require('multer');
 require('dotenv').config();
 const { ensureExists } = require('./utils');
-const { photoPath, logPath, rawPath } = require('./config');
+const { photoPath, logPath } = require('./config');
 
 const port = process.env.API_PORT || 4000;
 
@@ -16,7 +15,6 @@ const photos = require('./photos/routes');
 // Initialize app
 const app = express();
 app.use(express.json());
-app.use(multer({ dest: rawPath }).any());
 app.use(cookieParser());
 
 // Initialize files directory
