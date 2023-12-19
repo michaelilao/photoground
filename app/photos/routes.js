@@ -9,7 +9,8 @@ const { rawPath } = require('../config');
 
 const upload = multer({ dest: rawPath }).any();
 
-router.post('/upload', [upload, authenticate, formatBody, validateBody(schemas.upload)], controller.upload);
+router.post('/upload', [authenticate, upload, formatBody, validateBody(schemas.upload)], controller.upload);
 router.get('/status', [authenticate, validateParams(schemas.status)], controller.status);
+// router.get('/list', [authenticate, validateParams(schemas.list)], controller.list);
 
 module.exports = router;

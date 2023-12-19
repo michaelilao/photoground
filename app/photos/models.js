@@ -22,4 +22,10 @@ const upload = Joi.object({
 const status = Joi.object({
   batchId: Joi.string().required()
 });
-module.exports = { upload, status };
+
+const list = Joi.object({
+  limit: Joi.number(),
+  offset: Joi.number()
+});
+
+module.exports = { upload, status, list };

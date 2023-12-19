@@ -11,7 +11,6 @@ const config = {
     __DEV__: true,
   },
   prettierPath: null,
-  setupFiles: ['./app/database/index.js'],
 };
 
 module.exports = config;

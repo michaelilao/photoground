@@ -1,6 +1,5 @@
 const fs = require('fs');
 const crypto = require('crypto');
-const { setTimeout } = require('timers/promises');
 const db = require('../database');
 const userScripts = require('../users/sql');
 const photoScripts = require('./sql');
@@ -52,7 +51,7 @@ const createPhotoRecords = async (files, userId) => {
     connection.run(photoScripts.insertPhoto, [photoId, userId, name, photoType, pending, batchId], async (insertErr) => {
       if (insertErr) {
         console.error(insertErr);
-        // THINK: How to handle insertion errors
+        // THINK: How to handle insertion into db errors
         return;
       }
 
@@ -60,9 +59,8 @@ const createPhotoRecords = async (files, userId) => {
       const newPath = `${getUserPhotoPath(userId)}/${file.filename}`;
 
       // TODO: Compress photos and upload them to their user folder Async
-      // Mocking compression time
-      await setTimeout(10000);
 
+      // Move photos from raw to user photo path
       fs.rename(currentPath, newPath, (moveErr) => {
         let status = uploadStatus.complete;
         if (moveErr) {
@@ -70,6 +68,7 @@ const createPhotoRecords = async (files, userId) => {
           status = uploadStatus.error;
         }
 
+        // Update status of each record
         connection.run(photoScripts.updatePhotoStatus, [status, photoId], (updateErr) => {
           if (updateErr) {
             console.error(updateErr);
@@ -83,16 +82,26 @@ const createPhotoRecords = async (files, userId) => {
 };
 
 const getPhotoBatchStatus = async (batchId) => {
-  const connection = await db();
-
-  const photoBatch = await new Promise((resolve, reject) => {
-    connection.all(photoScripts.getPhotosByBatchId, [batchId], (err, rows) => {
-      if (err) {
-        reject(err);
-      }
-      resolve(rows);
+  try {
+    const connection = await db();
+    const photoBatch = await new Promise((resolve, reject) => {
+      connection.all(photoScripts.getPhotosByBatchId, [batchId], (err, rows) => {
+        if (err) {
+          reject(err);
+        }
+        resolve(rows);
+      });
     });
-  });
-  return photoBatch;
+    return photoBatch;
+  } catch (err) {
+    console.error(err);
+    return { error: true, message: err.code, status: 500 };
+  }
 };
-module.exports = { createPhotosDirectory, createPhotoRecords, getPhotoBatchStatus };
+
+module.exports = {
+  createPhotosDirectory,
+  createPhotoRecords,
+  getPhotoBatchStatus,
+  getUserPhotoPath,
+};

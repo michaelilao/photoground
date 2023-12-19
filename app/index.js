@@ -49,9 +49,14 @@ require('./database')().then(() => {
   console.debug('db initialized');
 
   // Start server
-  app.listen(port, () => {
+  const server = app.listen(port, () => {
     console.debug(`server running on port ${port}`);
   });
+  // Assign app close function
+  app.close = () => {
+    console.debug(`closing the server on port ${port}`);
+    server.close();
+  };
 });
 
 module.exports = app;

@@ -4,7 +4,7 @@ const fs = require('fs');
 const request = require('supertest');
 const app = require('../app');
 const db = require('../app/database');
-const { dbPath, logPath } = require('../app/config');
+const { dbPath } = require('../app/config');
 
 const testUser = {
   email: 'test@gmail.com',
@@ -12,6 +12,7 @@ const testUser = {
   password: 'test12345',
 };
 
+// Tests Endpoints
 describe('POST /api/v1/users/register', () => {
   it('should create a new user', async () => {
     const res = await request(app).post(`${process.env.API_PATH}/users/register`).send(testUser);
@@ -45,11 +46,16 @@ describe('POST /api/v1/users/login', () => {
 });
 
 afterAll(async () => {
+  // Close db connections and delete db
   const connection = await db();
   connection.close();
-  fs.unlinkSync(dbPath);
+  fs.rmSync(dbPath);
 
-  const filesPath = `./${process.env.NODE_ENV}-files`;
-  fs.rmSync(filesPath, { recursive: true, force: true });
-  fs.rmSync(logPath, { recursive: true, force: true });
+  // Delete folders and files created
+  // const filesPath = `./${process.env.NODE_ENV}-files`;
+  // fs.rmSync(filesPath, { recursive: true, force: true });
+  // fs.rmSync(logPath, { recursive: true, force: true });
+
+  // Close the server
+  await app.close();
 });
