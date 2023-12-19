@@ -30,5 +30,6 @@ module.exports = {
     'class-methods-use-this': 'off',
     'max-len': ['error', { code: 150 }],
     'comma-dangle': 0,
+    'object-curly-newline': 'off',
   },
 };
