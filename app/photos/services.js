@@ -6,8 +6,10 @@ const photoScripts = require('./sql');
 const { photoPath } = require('../config');
 const { ensureExists } = require('../utils');
 const { uploadStatus } = require('../utils/enums');
+const { photosSchema } = require('./models');
 
 const getUserPhotoPath = (userId) => `${photoPath}/${userId}`;
+
 const createPhotosDirectory = async (userId) => {
   try {
     const connection = await db();
@@ -45,7 +47,7 @@ const createPhotoRecords = async (files, userId) => {
   files.forEach((file) => {
     const photoType = file.mimetype;
     const name = file.originalname;
-    const photoId = crypto.randomUUID();
+    const photoId = file.filename;
     const { pending } = uploadStatus;
 
     connection.run(photoScripts.insertPhoto, [photoId, userId, name, photoType, pending, batchId], async (insertErr) => {
@@ -80,7 +82,6 @@ const createPhotoRecords = async (files, userId) => {
 
   return batchId;
 };
-
 const getPhotoBatchStatus = async (batchId) => {
   try {
     const connection = await db();
@@ -98,10 +99,55 @@ const getPhotoBatchStatus = async (batchId) => {
     return { error: true, message: err.code, status: 500 };
   }
 };
+const getPhotoList = async (userId, limit = 10, offset = 0, sort = 'asc', order = 'photo_id') => {
+  try {
+    const connection = await db();
+    const sortValidated = sort.toLowerCase() === 'asc' ? 'asc' : 'desc';
+    const orderValidated = photosSchema[order] || 'name';
+
+    const photoList = await new Promise((resolve, reject) => {
+      connection.all(photoScripts.getPhotoListByParams(sortValidated, orderValidated), [userId, limit, offset], (err, rows) => {
+        if (err) {
+          reject(err);
+        }
+        resolve(rows);
+      });
+    });
+    return photoList;
+  } catch (err) {
+    console.error(err);
+    return { error: true, message: err.code, status: 500 };
+  }
+};
+const getPhotoFilePath = async (userId, photoId) => {
+  try {
+    const connection = await db();
+
+    const photo = await new Promise((resolve, reject) => {
+      connection.get(photoScripts.getPhotoById, [userId, photoId], (err, row) => {
+        if (err) {
+          reject(err);
+        }
+        resolve(row);
+      });
+    });
+    const pathToFile = `${getUserPhotoPath(userId)}/${photoId}`;
+
+    return {
+      path: pathToFile,
+      filename: photo.name,
+    };
+  } catch (err) {
+    console.error(err);
+    return { error: true, message: err.code, status: 500 };
+  }
+};
 
 module.exports = {
   createPhotosDirectory,
   createPhotoRecords,
   getPhotoBatchStatus,
   getUserPhotoPath,
+  getPhotoList,
+  getPhotoFilePath,
 };

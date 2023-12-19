@@ -16,3 +16,10 @@ exports.getPhotosByBatchId = `SELECT photo_id as photoId, name, photo_type as ph
     FROM photos INNER JOIN status\
     ON status.status_id = photos.status_id\ 
     WHERE batch_id = ?`;
+
+exports.getPhotoListByParams = (sort, order) => `SELECT photo_id as photoId, name, photo_type as photoType\
+    FROM photos WHERE user_id = ?\
+    ORDER BY ${order} ${sort}\
+    LIMIT ? OFFSET ?`;
+
+exports.getPhotoById = 'SELECT photo_id as photoId, name, photo_type as photoType FROM photos WHERE user_id = ? AND photo_id = ?';

@@ -4,7 +4,7 @@ const fs = require('fs');
 const crypto = require('crypto');
 const db = require('../app/database');
 const config = require('../app/config');
-const { createPhotosDirectory, getUserPhotoPath, createPhotoRecords, getPhotoBatchStatus } = require('../app/photos/services');
+const { createPhotosDirectory, getUserPhotoPath, createPhotoRecords, getPhotoBatchStatus, getPhotoList, getPhotoFilePath } = require('../app/photos/services');
 const { loginUser } = require('../app/users/services');
 const { ensureExists } = require('../app/utils');
 
@@ -23,6 +23,7 @@ const testFile = {
   path: `${config.rawPath}/${photoFileName}`,
   size: 163513,
 };
+let photo;
 
 beforeAll(async () => {
   // ensure db is started
@@ -66,10 +67,28 @@ describe('get photo batch status', () => {
     const batch = await getPhotoBatchStatus(batchId);
     const photoRecord = batch[0];
     expect(photoRecord.status).toMatch(/^(complete|pending)$/);
+    expect(photoRecord.name).toBe(testFile.originalname);
+
     if (photoRecord.status === 'complete') {
       const completedPhotoPath = `${getUserPhotoPath(testUser.user.userId)}/${photoFileName}`;
       expect(fs.existsSync(completedPhotoPath)).toBe(true);
     }
+  });
+});
+
+describe('get photo list', () => {
+  it('should get all user photos', async () => {
+    const photos = await getPhotoList(testUser.user.userId);
+    [photo] = photos;
+    expect(photo.name).toBe(testFile.originalname);
+  });
+});
+
+describe('get photo path', () => {
+  it('should get photo path by id', async () => {
+    const path = await getPhotoFilePath(testUser.user.userId, photo.photoId);
+    expect(path.path).toBe(`${getUserPhotoPath(testUser.user.userId)}/${testFile.filename}`);
+    expect(path.filename).toBe(testFile.originalname);
   });
 });
 

@@ -1,6 +1,15 @@
 /* eslint-disable prettier/prettier */
 const Joi = require('joi');
 
+const photosSchema = {
+  photoId: 'photo_id',
+  userId: 'user_id',
+  name: 'name',
+  photoType: 'photo_type',
+  statusId: 'status_id',
+  batchId: 'batch_id'
+};
+
 const upload = Joi.object({
   files: Joi.array()
     .items(
@@ -25,7 +34,13 @@ const status = Joi.object({
 
 const list = Joi.object({
   limit: Joi.number(),
-  offset: Joi.number()
+  offset: Joi.number(),
+  order: Joi.string(),
+  sort: Joi.string()
 });
 
-module.exports = { upload, status, list };
+const photo = Joi.object({
+  photoId: Joi.string().required()
+});
+
+module.exports = { upload, status, list, photosSchema, photo };
