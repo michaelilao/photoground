@@ -1,4 +1,5 @@
-const { createPhotosDirectory, createPhotoRecords, getPhotoBatchStatus, getPhotoList, getPhotoFilePath } = require('./services');
+const path = require('path');
+const { createPhotosDirectory, createPhotoRecords, getPhotoBatchStatus, getPhotoList, getUserPhotoPath } = require('./services');
 
 const upload = async (req, res) => {
   // Check if users folder exists, if not create it and return the user
@@ -53,13 +54,19 @@ const list = async (req, res) => {
 };
 
 const file = async (req, res) => {
-  console.log(req.params);
-  const photo = await getPhotoFilePath(req.user.id, req.params.photoId);
-  return res.status(200).json({
-    error: false,
-    message: 'Photo list Fetched Succesfully',
-    status: 200,
-    data: { photo },
+  const photoPath = `${getUserPhotoPath(req.user.id)}/${req.params.photoId}`;
+  const options = {
+    root: path.join(__dirname, '..', '..'),
+  };
+
+  return res.sendFile(photoPath, options, (err) => {
+    if (err) {
+      res.status(404).json({
+        error: true,
+        message: 'Requested file does not exist',
+        status: 404,
+      });
+    }
   });
 };
 module.exports = { upload, status, list, file };

@@ -8,6 +8,7 @@ const { ensureExists } = require('./utils');
 const { photoPath, logPath } = require('./config');
 
 const port = process.env.API_PORT || 4000;
+const api = process.env.API_PATH || '/api/v1';
 
 const users = require('./users/routes');
 const photos = require('./photos/routes');
@@ -34,13 +35,8 @@ ensureExists(logPath, (err) => {
   app.use(morgan('common', { stream: accessLogStream }));
 });
 
-// Root endpoint
-app.get('/', async (_req, res) => {
-  res.json({ message: 'Welcome to Photoground API' });
-});
-
-// Define our routes
-const api = process.env.API_PATH || '/api/v1';
+// Routes
+app.get('/', async (_req, res) => res.json({ message: 'Welcome to Photoground API' }));
 app.use(`${api}/users`, users);
 app.use(`${api}/photos`, photos);
 

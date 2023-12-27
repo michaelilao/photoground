@@ -39,6 +39,7 @@ const createPhotosDirectory = async (userId) => {
     return { error: true, message: err.message, status: 500 };
   }
 };
+
 const createPhotoRecords = async (files, userId) => {
   const connection = await db();
   const batchId = crypto.randomUUID();
@@ -82,6 +83,7 @@ const createPhotoRecords = async (files, userId) => {
 
   return batchId;
 };
+
 const getPhotoBatchStatus = async (batchId) => {
   try {
     const connection = await db();
@@ -96,9 +98,10 @@ const getPhotoBatchStatus = async (batchId) => {
     return photoBatch;
   } catch (err) {
     console.error(err);
-    return { error: true, message: err.code, status: 500 };
+    return { error: true, message: err.code || err.message || err, status: 500 };
   }
 };
+
 const getPhotoList = async (userId, limit = 10, offset = 0, sort = 'asc', order = 'photo_id') => {
   try {
     const connection = await db();
@@ -116,38 +119,13 @@ const getPhotoList = async (userId, limit = 10, offset = 0, sort = 'asc', order 
     return photoList;
   } catch (err) {
     console.error(err);
-    return { error: true, message: err.code, status: 500 };
+    return { error: true, message: err.code || err.message || err, status: 500 };
   }
 };
-const getPhotoFilePath = async (userId, photoId) => {
-  try {
-    const connection = await db();
-
-    const photo = await new Promise((resolve, reject) => {
-      connection.get(photoScripts.getPhotoById, [userId, photoId], (err, row) => {
-        if (err) {
-          reject(err);
-        }
-        resolve(row);
-      });
-    });
-    const pathToFile = `${getUserPhotoPath(userId)}/${photoId}`;
-
-    return {
-      path: pathToFile,
-      filename: photo.name,
-    };
-  } catch (err) {
-    console.error(err);
-    return { error: true, message: err.code, status: 500 };
-  }
-};
-
 module.exports = {
   createPhotosDirectory,
   createPhotoRecords,
   getPhotoBatchStatus,
   getUserPhotoPath,
   getPhotoList,
-  getPhotoFilePath,
 };
