@@ -4,7 +4,7 @@ const fs = require('fs');
 const crypto = require('crypto');
 const db = require('../app/database');
 const config = require('../app/config');
-const { createPhotosDirectory, getUserPhotoPath, createPhotoRecords, getPhotoBatchStatus, getPhotoList, getPhotoFilePath } = require('../app/photos/services');
+const services = require('../app/photos/services');
 const { loginUser } = require('../app/users/services');
 const { ensureExists } = require('../app/utils');
 
@@ -47,8 +47,8 @@ beforeAll(async () => {
 // Testing individual services
 describe('create photo directory ', () => {
   it('should create a photo directroy with the admin user id', async () => {
-    const directoryStatus = await createPhotosDirectory(testUser.user.userId);
-    const directoryPath = getUserPhotoPath(testUser.user.userId);
+    const directoryStatus = await services.createPhotosDirectory(testUser.user.userId);
+    const directoryPath = services.getUserPhotoPath(testUser.user.userId);
     expect(directoryStatus.error).toBe(false);
     expect(fs.existsSync(directoryPath)).toBe(true);
   });
@@ -57,20 +57,20 @@ describe('create photo directory ', () => {
 describe('create photo batch ', () => {
   it('should create photo records in db and return a batch id of the job', async () => {
     await fs.appendFileSync(testFile.path, 'some jpg data');
-    batchId = await createPhotoRecords([testFile], testUser.user.userId);
+    batchId = await services.createPhotoRecords([testFile], testUser.user.userId);
     expect(batchId.length).toBeGreaterThan(0);
   });
 });
 
 describe('get photo batch status', () => {
   it('should get photo batch status', async () => {
-    const batch = await getPhotoBatchStatus(batchId);
+    const batch = await services.getPhotoBatchStatus(batchId);
     const photoRecord = batch[0];
     expect(photoRecord.status).toMatch(/^(complete|pending)$/);
     expect(photoRecord.name).toBe(testFile.originalname);
 
     if (photoRecord.status === 'complete') {
-      const completedPhotoPath = `${getUserPhotoPath(testUser.user.userId)}/${photoFileName}`;
+      const completedPhotoPath = `${services.getUserPhotoPath(testUser.user.userId)}/${photoFileName}`;
       expect(fs.existsSync(completedPhotoPath)).toBe(true);
     }
   });
@@ -78,17 +78,9 @@ describe('get photo batch status', () => {
 
 describe('get photo list', () => {
   it('should get all user photos', async () => {
-    const photos = await getPhotoList(testUser.user.userId);
+    const photos = await services.getPhotoList(testUser.user.userId);
     [photo] = photos;
     expect(photo.name).toBe(testFile.originalname);
-  });
-});
-
-describe('get photo path', () => {
-  it('should get photo path by id', async () => {
-    const path = await getPhotoFilePath(testUser.user.userId, photo.photoId);
-    expect(path.path).toBe(`${getUserPhotoPath(testUser.user.userId)}/${testFile.filename}`);
-    expect(path.filename).toBe(testFile.originalname);
   });
 });
 

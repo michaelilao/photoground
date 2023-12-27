@@ -1,0 +1,4 @@
+- work on acl for photos
+- uuid into single function make it shorter
+- web based version served from root
+- documentation for api
