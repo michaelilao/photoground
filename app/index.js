@@ -1,11 +1,11 @@
-const fs = require('fs');
 const path = require('path');
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
 require('dotenv').config();
+const favicon = require('serve-favicon');
 const { ensureExists } = require('./utils');
-const { photoPath, logPath } = require('./config');
+const { photoPath } = require('./config');
 
 const port = process.env.API_PORT || 4000;
 const api = process.env.API_PATH || '/api/v1';
@@ -17,38 +17,25 @@ const photos = require('./photos/routes');
 const app = express();
 app.use(express.json());
 app.use(cookieParser());
+app.use(morgan('dev'));
 
 // Initialize files directory
-ensureExists(photoPath, (err) => {
-  if (err) {
-    console.error('Error occured during photo directory creation', err);
-  }
-});
-
-// Initialize logger folders and logger
-app.use(morgan('dev'));
-ensureExists(logPath, (err) => {
-  if (err) {
-    console.error('Error occured during log directory creation', err);
-  }
-  const accessLogStream = fs.createWriteStream(path.join(logPath, 'access.log'), { flags: 'a' });
-  app.use(morgan('common', { stream: accessLogStream }));
-});
+ensureExists(photoPath);
 
 // Routes
-app.get('/', async (_req, res) => res.json({ message: 'Welcome to Photoground API' }));
+app.use(favicon(path.join(__dirname, 'web', 'public', 'favicon.ico')));
+app.use(express.static(path.join(__dirname, 'web', 'public')));
+app.get('/', async (_req, res) => res.sendFile('web/root.html', { root: __dirname }));
 app.use(`${api}/users`, users);
 app.use(`${api}/photos`, photos);
 
-// Initalize DB and wait to start until it is done
 require('./database')().then(() => {
   console.debug('db initialized');
 
-  // Start server
   const server = app.listen(port, () => {
     console.debug(`server running on port ${port}`);
   });
-  // Assign app close function
+
   app.close = () => {
     console.debug(`closing the server on port ${port}`);
     server.close();

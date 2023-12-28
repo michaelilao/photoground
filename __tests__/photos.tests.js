@@ -32,16 +32,8 @@ beforeAll(async () => {
   testUser = user;
 
   // ensure files directory
-  ensureExists(config.photoPath, (err) => {
-    if (err) {
-      console.error('Error occured during photo directory creation', err);
-    }
-  });
-  ensureExists(config.rawPath, (err) => {
-    if (err) {
-      console.error('Error occured during photo directory creation', err);
-    }
-  });
+  ensureExists(config.photoPath);
+  ensureExists(config.rawPath);
 });
 
 // Testing individual services

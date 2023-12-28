@@ -27,11 +27,7 @@ const createPhotosDirectory = async (userId) => {
       });
     });
     // Initialize files directory
-    ensureExists(getUserPhotoPath(user.userId), (err) => {
-      if (err) {
-        throw new Error('Error occured during photo directory creation', err);
-      }
-    });
+    ensureExists(getUserPhotoPath(user.userId));
 
     return { error: false };
   } catch (err) {

@@ -4,7 +4,7 @@ const fs = require('fs');
 const request = require('supertest');
 const app = require('../app');
 const db = require('../app/database');
-const { dbPath } = require('../app/config');
+const { dbPath, logPath } = require('../app/config');
 
 const testUser = {
   email: 'test@gmail.com',
@@ -52,9 +52,9 @@ afterAll(async () => {
   fs.rmSync(dbPath);
 
   // Delete folders and files created
-  // const filesPath = `./${process.env.NODE_ENV}-files`;
-  // fs.rmSync(filesPath, { recursive: true, force: true });
-  // fs.rmSync(logPath, { recursive: true, force: true });
+  const filesPath = `./${process.env.NODE_ENV}-files`;
+  fs.rmSync(filesPath, { recursive: true, force: true });
+  fs.rmSync(logPath, { recursive: true, force: true });
 
   // Close the server
   await app.close();
