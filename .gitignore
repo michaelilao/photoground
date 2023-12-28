@@ -133,3 +133,4 @@ dist
 *-files/
 *-logs/*
 uploads
+.DS_STORE
