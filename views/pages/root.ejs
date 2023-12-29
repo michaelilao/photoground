@@ -1,38 +1,29 @@
 <!doctype html>
 <html>
-  <head>
-    <title>photoground</title>
-    <link rel="stylesheet" href="styles.css" />
-    <link rel="stylesheet" href="root.css" />
-  </head>
+  <%- include('../partials/head'); %>
   <body>
     <header><%- include('../partials/nav'); %></header>
     <main>
-      <section class="hero">
+      <section class="text-center m-auto w-11/12 sm:w-1/2 pt-16">
         <div>
-          <h2>your photos all the time, off the cloud.</h2>
-          <p class>photoground gives you the tools to host and deploy your own photo storage solution, our open-source backend allows you to extend and modify our tool to your needs.</p>
-          <div class="w-100">
-            <button class="primary">get started</button>
-            <button class="secondary">view code</button>
+          <h2 class="text-2xl py-2 font-bold">your photos all the time, off the cloud.</h2>
+          <p class="">photoground gives you the tools to host and deploy your own photo storage solution, our open-source backend allows you to extend and modify our tool to your needs.</p>
+          <div class="py-4">
+            <button class="btn btn-primary">get started</button>
+            <button class="btn btn-secondary">view code</button>
           </div>
         </div>
       </section>
-      <section class="hero">
-        <div>
-          <h3>Best</h3>
-        </div>
-      </section>
       <section>
-        <div class="carousel w-80 mx-auto">
-          <div class="square"></div>
-          <div class="square"></div>
-          <div class="square"></div>
+        <div class="flex justify-center flex-wrap">
+          <div class="m-8 h-52 w-52 border-2 border-dashed border-teal"></div>
+          <div class="m-8 h-52 w-52 border-2 border-dashed border-teal"></div>
+          <div class="m-8 h-52 w-52 border-2 border-dashed border-teal"></div>
         </div>
-        <div class="carousel w-80 mx-auto">
-          <div class="square"></div>
-          <div class="square"></div>
-          <div class="square"></div>
+        <div class="flex justify-center flex-wrap">
+          <div class="m-8 h-52 w-52 border-2 border-dashed border-teal"></div>
+          <div class="m-8 h-52 w-52 border-2 border-dashed border-teal"></div>
+          <div class="m-8 h-52 w-52 border-2 border-dashed border-teal"></div>
         </div>
       </section>
     </main>

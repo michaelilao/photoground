@@ -30,106 +30,14 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  min-width: 320px;
 }
 
 main {
   flex: 1;
 }
 
-.logo {
-  color: black;
-}
-.logo:hover {
-  text-decoration: none;
-}
-
-nav {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  h1 {
-    display: flex;
-    img {
-      padding-right: 4px;
-    }
-  }
-}
-
-footer {
-  margin-top: 24px;
-  padding-top: 24px;
-  padding-bottom: 24px;
-  background-color: var(--blue);
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-}
-
-.teal {
-  color: var(--teal);
-}
-.blue {
-  color: var(--blue);
-}
-.smoke {
-  color: var(--smoke);
-}
-.mint {
-  color: var(--mint);
-}
-.normal {
-  font-weight: normal;
-}
-
-.bold {
-  font-weight: bold;
-}
-
-.thin {
-  font-weight: 100;
-}
-
-.text-center {
-  text-align: center;
-}
-
-.w-100 {
-  width: 100% !important;
-}
-.w-80 {
-  width: 80% !important;
-}
-.w-60 {
-  width: 60% !important;
-}
-.w-40 {
-  width: 40% !important;
-}
-.w-20 {
-  width: 20% !important;
-}
-
-.m-auto {
-  margin: auto;
-}
-.my-auto {
-  margin-top: auto;
-  margin-bottom: auto;
-}
-.mx-auto {
-  margin-left: auto;
-  margin-right: auto;
-}
-
-a {
-  color: var(--teal);
-  text-decoration: none;
-}
-a:hover {
-  text-decoration: underline;
-}
-
-button {
+.btn {
   all: unset;
   padding: 8px;
   margin: 8px;
@@ -138,15 +46,7 @@ button {
   cursor: pointer;
 }
 
-@media only screen and (max-width: 768px) {
-  button {
-    width: 100%;
-    padding: 8px 0px;
-
-    margin: 8px 0px;
-  }
-}
-button.primary {
+.btn-primary {
   color: var(--smoke);
   background-color: var(--teal);
   border: var(--teal);
@@ -154,12 +54,12 @@ button.primary {
   border-style: solid;
 }
 
-button.primary:hover {
+.btn-primary:hover {
   color: var(--teal);
   background-color: var(--smoke);
 }
 
-button.secondary {
+.btn-secondary {
   color: var(--smoke);
   background-color: black;
   border: black;
@@ -167,11 +67,15 @@ button.secondary {
   border-style: solid;
 }
 
-button.secondary:hover {
+.btn-secondary:hover {
   color: black;
   background-color: var(--smoke);
 }
 
-button:focus {
-  outline: revert;
+@media only screen and (max-width: 768px) {
+  .btn {
+    width: 100%;
+    padding: 8px 0px;
+    margin: 8px 0px;
+  }
 }
