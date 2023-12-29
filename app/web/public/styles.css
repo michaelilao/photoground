@@ -27,12 +27,25 @@ body {
   background-color: var(--smoke);
   font-family: IBM Plex Mono;
   margin: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+  flex: 1;
 }
 
 nav {
   display: flex;
   justify-content: space-around;
   align-items: center;
+  h1 {
+    display: flex;
+    img {
+      padding-right: 4px;
+    }
+  }
 }
 
 footer {
