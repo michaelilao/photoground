@@ -36,6 +36,13 @@ main {
   flex: 1;
 }
 
+.logo {
+  color: black;
+}
+.logo:hover {
+  text-decoration: none;
+}
+
 nav {
   display: flex;
   justify-content: space-around;
@@ -86,20 +93,20 @@ footer {
   text-align: center;
 }
 
-.w-full {
-  width: 100%;
+.w-100 {
+  width: 100% !important;
 }
 .w-80 {
-  width: 80%;
+  width: 80% !important;
 }
 .w-60 {
-  width: 60%;
+  width: 60% !important;
 }
 .w-40 {
-  width: 40%;
+  width: 40% !important;
 }
 .w-20 {
-  width: 20%;
+  width: 20% !important;
 }
 
 .m-auto {
@@ -125,11 +132,20 @@ a:hover {
 button {
   all: unset;
   padding: 8px;
+  margin: 8px;
   width: 128px;
   transition: background-color 0.25s ease;
   cursor: pointer;
 }
 
+@media only screen and (max-width: 768px) {
+  button {
+    width: 100%;
+    padding: 8px 0px;
+
+    margin: 8px 0px;
+  }
+}
 button.primary {
   color: var(--smoke);
   background-color: var(--teal);

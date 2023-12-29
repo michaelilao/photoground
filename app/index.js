@@ -18,14 +18,23 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 app.use(morgan('dev'));
+app.set('view engine', 'ejs');
 
-// Initialize files directory
 ensureExists(photoPath);
 
 // Routes
-app.use(favicon(path.join(__dirname, 'web', 'public', 'favicon.ico')));
-app.use(express.static(path.join(__dirname, 'web', 'public')));
-app.get('/', async (_req, res) => res.sendFile('web/root.html', { root: __dirname }));
+app.use(favicon(path.join(__dirname, '..', 'public', 'favicon.ico')));
+app.use(express.static(path.join(__dirname, '..', 'public')));
+
+app.get('/', (req, res) => {
+  res.render('pages/root');
+});
+
+// about page
+app.get('/login', (req, res) => {
+  res.render('pages/login');
+});
+
 app.use(`${api}/users`, users);
 app.use(`${api}/photos`, photos);
 

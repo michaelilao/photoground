@@ -1,0 +1,25 @@
+<!doctype html>
+<html>
+  <head>
+    <title>photoground</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="login.css" />
+  </head>
+  <body>
+    <header><%- include('../partials/nav'); %></header>
+    <main>
+      <section>
+        <div>
+          <h2>Login to</h2>
+          <form>
+            <label for="fname">First name:</label><br />
+            <input type="text" id="fname" name="fname" /><br />
+            <label for="lname">Last name:</label><br />
+            <input type="text" id="lname" name="lname" />
+          </form>
+        </div>
+      </section>
+    </main>
+    <%- include('../partials/footer'); %>
+  </body>
+</html>
