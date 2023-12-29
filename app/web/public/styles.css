@@ -26,6 +26,7 @@
 body {
   background-color: var(--smoke);
   font-family: IBM Plex Mono;
+  margin: 0;
 }
 
 nav {
@@ -33,6 +34,17 @@ nav {
   justify-content: space-around;
   align-items: center;
 }
+
+footer {
+  margin-top: 24px;
+  padding-top: 24px;
+  padding-bottom: 24px;
+  background-color: var(--blue);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
 .teal {
   color: var(--teal);
 }
@@ -97,17 +109,40 @@ a:hover {
   text-decoration: underline;
 }
 
-.hero {
-  text-align: center;
-  div {
-    margin: auto;
-    width: 50%;
-  }
+button {
+  all: unset;
+  padding: 8px;
+  width: 128px;
+  transition: background-color 0.25s ease;
+  cursor: pointer;
 }
-@media only screen and (max-width: 768px) {
-  .hero {
-    div {
-      width: 80%;
-    }
-  }
+
+button.primary {
+  color: var(--smoke);
+  background-color: var(--teal);
+  border: var(--teal);
+  border-width: 2px;
+  border-style: solid;
+}
+
+button.primary:hover {
+  color: var(--teal);
+  background-color: var(--smoke);
+}
+
+button.secondary {
+  color: var(--smoke);
+  background-color: black;
+  border: black;
+  border-width: 2px;
+  border-style: solid;
+}
+
+button.secondary:hover {
+  color: black;
+  background-color: var(--smoke);
+}
+
+button:focus {
+  outline: revert;
 }
