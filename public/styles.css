@@ -21,6 +21,7 @@
   --blue: #badfe7;
   --mint: #c2edce;
   --smoke: #f6f6f2;
+  --red: #ff6961;
 }
 
 body {
@@ -40,10 +41,10 @@ main {
 .btn {
   all: unset;
   padding: 8px;
-  margin: 8px;
   width: 128px;
   transition: background-color 0.25s ease;
   cursor: pointer;
+  text-align: center;
 }
 
 .btn-primary {

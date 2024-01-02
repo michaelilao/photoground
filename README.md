@@ -87,3 +87,5 @@ https://www.freecodecamp.org/news/understanding-node-js-event-driven-architectur
 https://medium.freecodecamp.com/node-js-streams-everything-you-need-to-know-c9141306be93
 
 ### Event Driven Architecture
+
+https://www.svgrepo.com/collection/solar-broken-line-icons/3

@@ -4,5 +4,4 @@ const formatBody = (req, res, next) => {
   }
   return next();
 };
-
 module.exports = { formatBody };

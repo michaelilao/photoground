@@ -85,12 +85,12 @@ const loginUser = async (email, password) => {
     });
 
     if (!user) {
-      return { error: true, message: 'Email or Password do not match, please check and try again.', status: 400 };
+      return { error: true, message: 'Email or Password are incorrect, please check and try again.', status: 400 };
     }
 
     const passwordsMatch = await bcrypt.compare(password, user.password);
     if (!passwordsMatch) {
-      return { error: true, message: 'Email or Password do not match, please check and try again.', status: 400 };
+      return { error: true, message: 'Email or Password are incorrect, please check and try again.', status: 400 };
     }
 
     // Remove hashed password from user object

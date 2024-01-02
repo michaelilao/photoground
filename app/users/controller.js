@@ -35,7 +35,6 @@ const login = async (req, res) => {
   try {
     const { email, password } = req.body;
     const user = await loginUser(email, password);
-
     if (user.error) {
       return res.status(user.status).json(user);
     }
