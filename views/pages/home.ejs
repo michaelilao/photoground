@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+  <%- include('../partials/head'); %>
+  <body>
+    <header><%- include('../partials/nav'); %></header>
+    <main>
+      <section class="text-center m-auto w-11/12 sm:w-1/2 pt-16">
+        <div>
+          <h2 class="text-2xl py-2 font-bold">Welcome Back <%= user.name %></h2>
+          <div class="py-4">
+            <button class="btn btn-primary">get started</button>
+            <button class="btn btn-secondary">view code</button>
+          </div>
+        </div>
+      </section>
+      <section>
+        <div class="flex gap-6 flex-wrap w-11/12 sm:w-1/2 m-auto justify-start sm:justify-center">
+          <% photos.forEach(function(photo, i){ %>
+          <div class="my-8 h-52 w-52 border-2 border-dashed border-teal">
+            <img src="http://localhost:4001/api/v1/photos/493af21dbfdc3defbf3fad58d393ddfb">
+          </div>
+          <% }); %>
+        </div>
+      </section>
+    </main>
+    <%- include('../partials/footer'); %>
+  </body>
+</html>

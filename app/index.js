@@ -12,6 +12,7 @@ const api = process.env.API_PATH || '/api/v1';
 
 const users = require('./users/routes');
 const photos = require('./photos/routes');
+const web = require('./web/routes');
 
 // Initialize app
 const app = express();
@@ -19,24 +20,14 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(morgan('dev'));
 app.set('view engine', 'ejs');
-
-ensureExists(photoPath);
-
-// Routes
 app.use(favicon(path.join(__dirname, '..', 'public', 'favicon.ico')));
 app.use(express.static(path.join(__dirname, '..', 'public')));
+ensureExists(photoPath);
 
-app.get('/', (req, res) => {
-  res.render('pages/root');
-});
-
-// about page
-app.get('/login', (req, res) => {
-  res.render('pages/login');
-});
-
+// API Routes
 app.use(`${api}/users`, users);
 app.use(`${api}/photos`, photos);
+app.use('/', web);
 
 require('./database')().then(() => {
   console.debug('db initialized');

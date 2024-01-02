@@ -44,14 +44,14 @@ const createUser = async (name, email, password) => {
     });
 
     // Get created user id
-    const newUserId = await new Promise((resolve, reject) => {
+    const newUser = await new Promise((resolve, reject) => {
       connection.get(scripts.getUserByEmail, [email], async (err, row) => {
         if (err) {
           reject(err);
         }
 
         if (row && row?.userId) {
-          resolve(row?.userId);
+          resolve(row);
         } else {
           reject(err);
         }
@@ -59,11 +59,11 @@ const createUser = async (name, email, password) => {
     });
 
     const tokenKey = process.env.TOKEN_KEY;
-    const token = jwt.sign({ id: newUserId, email }, tokenKey, {
+    const token = jwt.sign({ id: newUser.userId, email, name: newUser.name }, tokenKey, {
       expiresIn: tokenAge,
     });
 
-    return { user: { userId: newUserId }, accessToken: token, tokenAge };
+    return { user: newUser, accessToken: token, tokenAge };
   } catch (err) {
     console.error(err);
     return { error: true, message: err.message, status: 500 };
@@ -97,7 +97,7 @@ const loginUser = async (email, password) => {
     delete user.password;
 
     const tokenKey = process.env.TOKEN_KEY;
-    const token = jwt.sign({ id: user.userId, email }, tokenKey, {
+    const token = jwt.sign({ id: user.userId, email, name: user.name }, tokenKey, {
       expiresIn: tokenAge,
     });
 

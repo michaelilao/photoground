@@ -1,4 +1,16 @@
 // eslint-disable-next-line no-unused-vars
+function toast(message) {
+  const toastParent = document.getElementById('toast');
+  const toastText = document.getElementById('toast-text');
+  toastText.innerText = message;
+  toastParent.classList.remove('opacity-0');
+  toastParent.classList.add('opacity-100');
+  setTimeout(() => {
+    toastParent.classList.remove('opacity-100');
+    toastParent.classList.add('opacity-0');
+  }, '3000');
+}
+
 async function login() {
   let form = document.forms.namedItem('login');
   const body = {};
@@ -22,17 +34,12 @@ async function login() {
     });
     const data = await response.json();
     if (data.error) {
-      const toast = document.getElementById('toast');
-      const toastText = document.getElementById('toast-text');
-      toastText.innerText = data.message;
-      toast.classList.remove('opacity-0');
-      toast.classList.add('opacity-100');
-      setTimeout(() => {
-        toast.classList.remove('opacity-100');
-        toast.classList.add('opacity-0');
-      }, '3000');
+      toast(data.message);
+      return;
     }
+    // Simulate an HTTP redirect:
+    window.location.replace('http://localhost:4001/');
   } catch (err) {
-    console.error(err);
+    toast('error occurred please try again later');
   }
 }

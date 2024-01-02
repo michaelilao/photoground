@@ -1,5 +1,22 @@
 const jwt = require('jsonwebtoken');
 
+const authenticateWeb = (req) => {
+  const token = req.cookies.jwt || req.headers?.authorization?.split(' ')[1];
+  if (!token) {
+    return false;
+  }
+
+  // authenticate user
+  const tokenKey = process.env.TOKEN_KEY;
+
+  try {
+    const decoded = jwt.verify(token, tokenKey);
+    return decoded;
+  } catch (err) {
+    return false;
+  }
+};
+
 const authenticate = (req, res, next) => {
   const token = req.cookies.jwt || req.headers?.authorization?.split(' ')[1];
 
@@ -19,4 +36,4 @@ const authenticate = (req, res, next) => {
   }
 };
 
-module.exports = { authenticate };
+module.exports = { authenticate, authenticateWeb };
