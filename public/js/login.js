@@ -11,6 +11,7 @@ function toast(message) {
   }, '3000');
 }
 
+// eslint-disable-next-line no-unused-vars
 async function login() {
   let form = document.forms.namedItem('login');
   const body = {};

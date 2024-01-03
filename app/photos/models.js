@@ -7,7 +7,13 @@ const photosSchema = {
   name: 'name',
   photoType: 'photo_type',
   statusId: 'status_id',
-  batchId: 'batch_id'
+  batchId: 'batch_id',
+  width: 'width',
+  height: 'height',
+  hex: 'hex',
+  dateOriginal: 'date_original',
+  latitude: 'latitude',
+  longitude: 'longitude'
 };
 
 const upload = Joi.object({

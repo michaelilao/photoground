@@ -1,23 +1,37 @@
 <!doctype html>
 <html lang="en">
   <%- include('../partials/head'); %>
-  <body>
+  <body class="min-w-96">
     <header><%- include('../partials/nav'); %></header>
     <main>
       <section class="text-center m-auto w-11/12 sm:w-1/2 pt-16">
         <div>
           <h2 class="text-2xl py-2 font-bold">Welcome Back <%= user.name %></h2>
-          <div class="py-4">
-            <button class="btn btn-primary">get started</button>
-            <button class="btn btn-secondary">view code</button>
-          </div>
         </div>
       </section>
       <section>
-        <div class="flex gap-6 flex-wrap w-11/12 sm:w-1/2 m-auto justify-start sm:justify-center">
+       
+        <div class="flex gap-6 flex-wrap w-11/12 sm:w-10/12 m-auto justify-center sm:justify-center">
+          <div id="gallery-header" class="block sm:flex justify-around items-center w-full m-auto">
+            <button class="btn btn-primary">Upload Photos</button>
+            <div class="flex justify-center">
+              <% columns.forEach(function(col, i){ %>
+                <a href="<%= col.href %>" class="flex px-4 justify-center hover:underline">
+                  <span class="text-xl"><%= col.display %></span>
+                  <% if(order === col.id) {%>
+                    <img class="" src=<%=iconLink %> width="36" height="36" />
+                  <% } else {%>  
+                    <div class="h-9 w-9"></div>
+                  <% }%>  
+                </a>
+                <% }); %>      
+            </div>
+            
+          </div>
+
           <% photos.forEach(function(photo, i){ %>
-          <div class="my-8 h-52 w-52 border-2 border-dashed border-teal">
-            <img src="http://localhost:4001/api/v1/photos/493af21dbfdc3defbf3fad58d393ddfb">
+          <div class="p-1 self-start bg-[<%= photo.hex%>]">
+            <img class="max-w-80 max-h-80 min-w-52 min-h-52" loading="lazy" src="http://localhost:4001/api/v1/photos/<%= photo.photoId %>">
           </div>
           <% }); %>
         </div>

@@ -1,15 +1,53 @@
 const router = require('express').Router();
 const { authenticateWeb } = require('../middleware/auth');
 const { getPhotoList } = require('../photos/services');
+
 // Web Routes
+const generateHref = (col, currentOrder, currentSort) => {
+  let sort;
+  if (col.id !== currentOrder) {
+    sort = 'desc';
+  } else if (col.id === currentOrder && currentSort === 'desc') {
+    sort = 'asc';
+  } else {
+    sort = 'desc';
+  }
+
+  const href = `?order=${col.id}&sort=${sort}`;
+  return href;
+};
+
 router.get('/', async (req, res) => {
   const user = authenticateWeb(req);
+
   if (!user) {
     return res.render('pages/root');
   }
+  const order = req.query.order || 'dateOriginal';
+  const sort = req.query.sort || 'asc';
+  let columns = [
+    {
+      id: 'dateOriginal',
+      display: 'date',
+    },
+    {
+      id: 'hex',
+      display: 'color',
+    },
+    {
+      id: 'name',
+      display: 'name',
+    },
+  ];
 
-  const photos = await getPhotoList(user.id, 20, 0);
-  return res.render('pages/home', { user, photos });
+  const iconLink = sort === 'asc' ? 'icons/chevron-down.svg' : 'icons/chevron-up.svg';
+  columns = columns.map((col) => ({
+    ...col,
+    href: generateHref(col, order, sort),
+  }));
+  const photos = await getPhotoList(user.id, 100, 0, sort, order);
+
+  return res.render('pages/home', { user, photos, order, sort, columns, iconLink });
 });
 
 router.get('/login', (req, res) => {
