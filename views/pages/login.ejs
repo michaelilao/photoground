@@ -1,8 +1,6 @@
 <!doctype html>
 <html lang="en">
   <%- include('../partials/head'); %>
-  <script src="js/login.js"></script>
-  <script src="js/forms.js"></script>
   <body class="min-w-96">
     <header><%- include('../partials/nav'); %></header>
     <main>
@@ -18,15 +16,16 @@
           <label class="" for="password">Password:</label>
           <div class="relative">
             <input class="block w-full p-2 my-2 outline-2 outline-teal focus:outline" type="password" id="password" name="password" />
-            <button type="button" onclick="togglePassword()" class="absolute top-[20%] right-[2.5%] cursor-pointer" id="show">
+            <button type="button" class="absolute top-[20%] right-[2.5%] cursor-pointer" id="show">
               <img src="icons/eye-closed.svg" width="24" height="24" />
             </button>
           </div>
-          <button class="my-4 btn btn-primary" onclick="login()">Login</button>
+          <button id="login-button" class="my-4 btn btn-primary">Login</button>
         </form>
       </section>
       <%- include('../partials/toast'); %>
     </main>
     <%- include('../partials/footer'); %>
+    <script defer type="module" src="js/login.js"></script>
   </body>
 </html>

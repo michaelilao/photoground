@@ -1,4 +1,3 @@
-// eslint-disable-next-line no-unused-vars
 function togglePassword() {
   const password = document.getElementById('password');
   const show = document.getElementById('show').children[0];
@@ -10,3 +9,5 @@ function togglePassword() {
     show.src = 'icons/eye-closed.svg';
   }
 }
+
+export { togglePassword };

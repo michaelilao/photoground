@@ -13,11 +13,11 @@
        
         <div class="flex gap-6 flex-wrap w-11/12 md:w-10/12 m-auto justify-center sm:justify-center">
           <%- include('../partials/gallery-header'); %>
-          <% photos.forEach(function(photo, i){ %>
+          <% locals.photos && photos.length > 0 ? photos.forEach(function(photo, i){ %>
           <div class="p-1 self-start bg-[<%= photo.hex%>]">
             <img class="sm:max-w-80 sm:max-h-80 sm:min-w-52 sm:min-h-52" loading="lazy" src="/api/v1/photos/<%= photo.photoId %>">
           </div>
-          <% }); %>
+          <% }) : null; %>
         </div>
       </section>
     </main>

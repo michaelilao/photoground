@@ -1,25 +1,10 @@
-// eslint-disable-next-line no-unused-vars
-function toast(message, type) {
-  const toastParent = document.getElementById('toast');
-  const toastText = document.getElementById('toast-text');
-  toastText.innerText = message;
-  toastParent.classList.remove('opacity-0');
-  toastParent.classList.add('opacity-100');
-  if (type === 'error') {
-    toastParent.classList.remove('bg-mint');
-    toastParent.classList.add('bg-red');
-  }
-  if (type === 'success') {
-    toastParent.classList.remove('bg-red');
-    toastParent.classList.add('bg-mint');
-  }
+/* eslint-disable import/extensions */
+import { toast } from './toast.js';
+import { togglePassword } from './forms.js';
 
-  setTimeout(() => {
-    toastParent.classList.remove('opacity-100');
-    toastParent.classList.add('opacity-0');
-  }, '3000');
-}
-// eslint-disable-next-line no-unused-vars
+const loginButton = document.getElementById('login-button');
+const show = document.getElementById('show');
+
 async function login() {
   let form = document.forms.namedItem('login');
   const body = {};
@@ -52,3 +37,6 @@ async function login() {
     toast('error occurred please try again later', 'error');
   }
 }
+
+loginButton.addEventListener('click', () => login(), false);
+show.addEventListener('click', () => togglePassword(), false);

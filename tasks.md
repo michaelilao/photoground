@@ -3,9 +3,11 @@ BACKEND
 - documentation for api
 - dynamic db statements / orm
 - issues with private mode on safari
+- check speed and non blocking
 
 FRONTEND
 
-- Allow upload/deletion of images
+- Allow deletion of images
 - Modal to view image full screen
 - Cleanup js files
+- file size limit

@@ -1,64 +1,20 @@
-// ************************ Drag and drop ***************** //
-// eslint-disable-next-line no-unused-vars
-function toast(message, type) {
-  const toastParent = document.getElementById('toast');
-  const toastText = document.getElementById('toast-text');
-  toastText.innerText = message;
-  toastParent.classList.remove('opacity-0');
-  toastParent.classList.add('opacity-100');
-  if (type === 'error') {
-    toastParent.classList.remove('bg-mint');
-    toastParent.classList.add('bg-red');
-  }
-  if (type === 'success') {
-    toastParent.classList.remove('bg-red');
-    toastParent.classList.add('bg-mint');
-  }
+/* eslint-disable import/extensions */
+import { toast } from './toast.js';
+import { mb, returnFileSize, preventDefaults } from './utils.js';
 
-  setTimeout(() => {
-    toastParent.classList.remove('opacity-100');
-    toastParent.classList.add('opacity-0');
-  }, '3000');
-}
+// Constants
+const sizeLimit = mb * 10;
 
-function returnFileSize(number) {
-  if (number < 1024) {
-    return `${number} bytes`;
-  }
-  if (number >= 1024 && number < 1048576) {
-    return `${(number / 1024).toFixed(1)} KB`;
-  }
-  if (number >= 1048576) {
-    return `${(number / 1048576).toFixed(1)} MB`;
-  }
-  return '';
-}
-
-function preventDefaults(e) {
-  e.preventDefault();
-  e.stopPropagation();
-}
-
-const submitButton = document.getElementById('submit');
+// Get Elements
+const submitButton = document.getElementById('submit-button');
 const dropArea = document.getElementById('drop-area');
+const uploadInput = document.getElementById('upload-input');
 
-// Prevent default drag behaviors
-['dragenter', 'dragover', 'dragleave', 'drop'].forEach((eventName) => {
-  dropArea.addEventListener(eventName, preventDefaults, false);
-  document.body.addEventListener(eventName, preventDefaults, false);
-});
-
-// Highlight drop area when item is dragged over it
-['dragenter', 'dragover'].forEach((eventName) => {
-  dropArea.addEventListener(eventName, () => dropArea.classList.add('bg-teal', 'bg-opacity-20'), false);
-});
-['dragleave', 'drop'].forEach((eventName) => {
-  dropArea.addEventListener(eventName, () => dropArea.classList.remove('bg-teal', 'bg-opacity-20'), false);
-});
-
+// States
 let pendingFiles = [];
 
-const deleteFile = (filename) => {
+// Functionss
+function deleteFile(filename) {
   const file = document.getElementById(filename);
   file.remove();
   pendingFiles = pendingFiles.filter((f) => f.name !== filename);
@@ -66,8 +22,7 @@ const deleteFile = (filename) => {
     submitButton.classList.remove('block');
     submitButton.classList.add('hidden');
   }
-};
-
+}
 function previewFile(file) {
   const reader = new FileReader();
   reader.readAsDataURL(file);
@@ -112,7 +67,6 @@ function previewFile(file) {
     document.getElementById('gallery').appendChild(container);
   };
 }
-
 function handleFiles(files) {
   [...files].forEach((file) => {
     pendingFiles.push(file);
@@ -123,9 +77,12 @@ function handleFiles(files) {
     submitButton.classList.add('block');
   }
 }
-
-dropArea.addEventListener('drop', (e) => handleFiles(e.dataTransfer.files), false);
 async function submit() {
+  const size = pendingFiles.reduce((partialSum, file) => partialSum + file.size, 0);
+  if (size > sizeLimit) {
+    toast('You have exceeded to 20MB file limit', 'error');
+    return;
+  }
   try {
     const url = '/api/v1/photos/upload';
     const formData = new FormData();
@@ -145,10 +102,27 @@ async function submit() {
       toast(data.message, 'error');
       return;
     }
-    // Simulate an HTTP redirect:
     window.location.replace('/');
   } catch (err) {
     toast('error occurred please try again later', 'error');
   }
 }
+
+// Event listeners
 submitButton.addEventListener('click', () => submit());
+uploadInput.addEventListener('change', (e) => handleFiles(e.target.files), false);
+dropArea.addEventListener('drop', (e) => handleFiles(e.dataTransfer.files), false);
+
+// Prevent default drag behaviors
+['dragenter', 'dragover', 'dragleave', 'drop'].forEach((eventName) => {
+  dropArea.addEventListener(eventName, preventDefaults, false);
+  document.body.addEventListener(eventName, preventDefaults, false);
+});
+
+// Highlight drop area when item is dragged over it
+['dragenter', 'dragover'].forEach((eventName) => {
+  dropArea.addEventListener(eventName, () => dropArea.classList.add('bg-teal', 'bg-opacity-20'), false);
+});
+['dragleave', 'drop'].forEach((eventName) => {
+  dropArea.addEventListener(eventName, () => dropArea.classList.remove('bg-teal', 'bg-opacity-20'), false);
+});

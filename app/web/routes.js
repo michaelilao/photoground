@@ -44,8 +44,12 @@ router.get('/', async (req, res) => {
     ...col,
     href: generateHref(col, order, sort),
   }));
-  const photos = await getPhotoList(user.id, 100, 0, sort, order);
+  let photos = await getPhotoList(user.id, 100, 0, sort, order);
 
+  // Better way to handle this
+  if (photos.error) {
+    photos = [];
+  }
   return res.render('pages/home', { user, photos, order, sort, columns, iconLink });
 });
 
