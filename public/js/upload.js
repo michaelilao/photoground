@@ -41,6 +41,7 @@ function previewFile(file) {
     const info = document.createElement('div');
     info.classList.add('text-sm');
     const name = document.createElement('div');
+    name.classList.add('break-all');
     name.innerText = file.name;
     const size = document.createElement('div');
     size.innerText = returnFileSize(file.size);

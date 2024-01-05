@@ -9,5 +9,3 @@ FRONTEND
 
 - Allow deletion of images
 - Modal to view image full screen
-- Cleanup js files
-- file size limit
