@@ -31,6 +31,7 @@ module.exports = {
     'max-len': ['error', { code: 150 }],
     'comma-dangle': 0,
     'object-curly-newline': 'off',
+    'import/prefer-default-export': 'off',
   },
   settings: {
     'html/html-extensions': ['.html'],
