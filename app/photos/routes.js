@@ -14,6 +14,7 @@ const upload = multer({ dest: rawPath, limits: { fileSize: sizeLimit } }).any();
 router.post('/upload', [authenticate, upload, formatBody, validateBody(schemas.upload)], controller.upload);
 router.get('/status', [authenticate, validateParams(schemas.status)], controller.status);
 router.get('/list', [authenticate, validateParams(schemas.list)], controller.list);
-router.get('/:photoId', [authenticate, validateParams(schemas.list)], controller.file);
+router.get('/:photoId', [authenticate], controller.file);
+router.delete('/:photoId', [authenticate], controller.remove);
 
 module.exports = router;

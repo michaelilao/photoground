@@ -5,4 +5,5 @@ module.exports = {
   dbPath: `${process.env.NODE_ENV}-db.sqlite`,
   saltRounds: 10,
   tokenAge: 60 * 300, // 60s * 300; // 300 mins
+  deleteFileFlag: true,
 };

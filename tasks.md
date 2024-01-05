@@ -4,6 +4,7 @@ BACKEND
 - dynamic db statements / orm
 - issues with private mode on safari
 - check speed and non blocking
+- format return messages
 
 FRONTEND
 

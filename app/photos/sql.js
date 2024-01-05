@@ -17,6 +17,7 @@ exports.createTablePhotos = `CREATE TABLE photos (\
 
 exports.insertPhoto = 'INSERT INTO photos (photo_id, user_id, name, photo_type, status_id, batch_id) VALUES (?, ?, ?, ?, ?, ?)';
 exports.updatePhotoStatus = 'UPDATE photos SET status_id = ? WHERE photo_id = ?';
+exports.deletePhotobyId = 'DELETE from photos WHERE user_id = ? AND photo_id = ?';
 
 exports.updatePhoto = (fields) => {
   const sqlFields = fields.map((field) => `${field} = ?`);

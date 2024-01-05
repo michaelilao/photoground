@@ -10,10 +10,10 @@ beforeAll(async () => {});
 describe('test auth middleware ', () => {
   it('should successfully authenticate', async () => {
     const tokenKey = process.env.TOKEN_KEY;
-    const id = 'test-id';
+    const userId = 'test-id';
     const email = 'test-email';
 
-    const token = jwt.sign({ id, email }, tokenKey, {
+    const token = jwt.sign({ userId, email }, tokenKey, {
       expiresIn: config.tokenAge,
     });
     const req = {
@@ -25,7 +25,7 @@ describe('test auth middleware ', () => {
     const testAuth = authenticate(req, null, next);
 
     expect(testAuth).toBe(true);
-    expect(req.user.id).toBe(id);
+    expect(req.user.userId).toBe(userId);
     expect(req.user.email).toBe(email);
   });
 });

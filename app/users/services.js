@@ -59,7 +59,7 @@ const createUser = async (name, email, password) => {
     });
 
     const tokenKey = process.env.TOKEN_KEY;
-    const token = jwt.sign({ id: newUser.userId, email, name: newUser.name }, tokenKey, {
+    const token = jwt.sign({ userId: newUser.userId, email, name: newUser.name }, tokenKey, {
       expiresIn: tokenAge,
     });
 
@@ -97,7 +97,7 @@ const loginUser = async (email, password) => {
     delete user.password;
 
     const tokenKey = process.env.TOKEN_KEY;
-    const token = jwt.sign({ id: user.userId, email, name: user.name }, tokenKey, {
+    const token = jwt.sign({ userId: user.userId, email, name: user.name }, tokenKey, {
       expiresIn: tokenAge,
     });
 

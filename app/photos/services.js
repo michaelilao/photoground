@@ -161,10 +161,36 @@ const getPhotoList = async (userId, limit = 10, offset = 0, sort = 'asc', order 
   }
 };
 
+const deletePhotoRecord = async (userId, photoId) => {
+  try {
+    const connection = await db();
+    const deleteStatus = await new Promise((resolve, reject) => {
+      connection.run(photoScripts.deletePhotobyId, [userId, photoId], async function (err) {
+        if (this.changes === 0) {
+          resolve(false);
+        }
+        if (err) {
+          reject(err);
+        }
+        resolve(true);
+      });
+    });
+
+    if (deleteStatus) {
+      return { error: false };
+    }
+    return { error: true, message: 'requested photo does not exist', status: 404 };
+  } catch (err) {
+    console.error(err);
+    return { error: true, message: err.code || err.message || err, status: 500 };
+  }
+};
+
 module.exports = {
   createPhotosDirectory,
   createPhotoRecords,
   getPhotoBatchStatus,
   getUserPhotoPath,
   getPhotoList,
+  deletePhotoRecord,
 };
