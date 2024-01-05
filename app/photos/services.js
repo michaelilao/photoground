@@ -84,7 +84,7 @@ const createPhotoRecords = async (files, userId) => {
       const photoData = {};
       const metaData = await getPhotoMetaData(currentPath);
       if (metaData) {
-        photoData.dateOriginial = formatDate(metaData?.exif?.DateTimeOriginal);
+        photoData.dateOriginal = formatDate(metaData?.exif?.DateTimeOriginal);
         photoData.width = metaData?.exif?.ExifImageWidth;
         photoData.height = metaData?.exif?.ExifImageHeight;
       }

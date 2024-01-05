@@ -28,7 +28,8 @@ exports.getPhotosByBatchId = `SELECT photo_id as photoId, name, photo_type as ph
     ON status.status_id = photos.status_id\ 
     WHERE batch_id = ?`;
 
-exports.getPhotoListByParams = (sort, order) => `SELECT photo_id as photoId, name, photo_type as photoType, hex, date_original as dateOriginal\
+exports.getPhotoListByParams = (sort, order) => `SELECT photo_id as photoId, name, photo_type as photoType, hex, date_original as dateOriginal,\ 
+    width, height\
     FROM photos WHERE user_id = ?\
     AND status_id = 2\
     ORDER BY ${order} ${sort}\

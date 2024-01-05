@@ -58,7 +58,6 @@ const file = async (req, res) => {
   const options = {
     root: path.join(__dirname, '..', '..'),
   };
-
   return res.sendFile(photoPath, options, (err) => {
     if (err) {
       res.status(404).json({

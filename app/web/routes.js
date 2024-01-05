@@ -19,7 +19,6 @@ const generateHref = (col, currentOrder, currentSort) => {
 
 router.get('/', async (req, res) => {
   const user = authenticateWeb(req);
-
   if (!user) {
     return res.render('pages/root');
   }
@@ -56,6 +55,15 @@ router.get('/login', (req, res) => {
     return res.render('pages/login');
   }
   return res.redirect('/');
+});
+
+router.get('/upload', (req, res) => {
+  const user = authenticateWeb(req);
+  if (!user) {
+    return res.redirect('/login');
+  }
+
+  return res.render('pages/upload', { user });
 });
 
 router.get('/logout', (req, res) => {

@@ -1,0 +1,17 @@
+<div id="gallery-header" class="pt-4 block sm:flex justify-center items-center sm:justify-around w-full m-auto">
+  <div class="flex justify-center items-center">
+    <% columns.forEach(function(col, i){ %>
+      <a href="<%= col.href %>" class="flex px-4 justify-center hover:underline">
+        <span class="text-xl"><%= col.display %></span>
+        <% if(order === col.id) {%>
+          <img class="" src=<%=iconLink %> width="36" height="36" />
+        <% } else {%>  
+          <div class="h-9 w-9"></div>
+        <% }%>  
+      </a>
+      <% }); %>      
+  </div>
+  <div>
+    <a href="/upload" class="btn btn-primary block">Upload Photos</a>
+  </div>
+</div>
