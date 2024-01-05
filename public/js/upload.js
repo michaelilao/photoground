@@ -3,7 +3,7 @@ import { toast } from './toast.js';
 import { mb, returnFileSize, preventDefaults } from './utils.js';
 
 // Constants
-const sizeLimit = mb * 10;
+const sizeLimit = mb * 20;
 
 // Get Elements
 const submitButton = document.getElementById('submit-button');
