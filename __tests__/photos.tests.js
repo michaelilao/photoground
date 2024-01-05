@@ -60,9 +60,8 @@ describe('get photo batch status', () => {
     const photoRecord = batch[0];
     expect(photoRecord.status).toMatch(/^(complete|pending)$/);
     expect(photoRecord.name).toBe(testFile.originalname);
-
     if (photoRecord.status === 'complete') {
-      const completedPhotoPath = `${services.getUserPhotoPath(testUser.user.userId)}/${photoFileName}`;
+      const completedPhotoPath = `${services.getUserPhotoPath(testUser.user.userId)}/${photoRecord.photoId}`;
       expect(fs.existsSync(completedPhotoPath)).toBe(true);
     }
   });
@@ -73,6 +72,21 @@ describe('get photo list', () => {
     const photos = await services.getPhotoList(testUser.user.userId);
     [photo] = photos;
     expect(photo.name).toBe(testFile.originalname);
+  });
+});
+
+describe('delete photo', () => {
+  it('should delete photo', async () => {
+    const deleteStatus = await services.deletePhotoRecord(testUser.user.userId, photo.photoId);
+    expect(deleteStatus.error).toBe(false);
+  });
+});
+
+describe('delete photo doesnt exist', () => {
+  it('should fail deleting photo', async () => {
+    const deleteStatus = await services.deletePhotoRecord(testUser.user.userId, photo.photoId);
+    expect(deleteStatus.error).toBe(true);
+    expect(deleteStatus.status).toBe(404);
   });
 });
 

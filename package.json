@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "nodemon server.js",
+    "dev": "nodemon server.js  --trace-sync-io",
     "test": "cross-env NODE_ENV=test API_PORT=4002 jest --forceExit --coverage --runInBand",
     "lint": "eslint . && prettier --check ."
   },
