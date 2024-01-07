@@ -12,3 +12,4 @@ FRONTEND
 - Allow deletion of images
 - Modal to view image full screen
 - Allow image alterations (roatate, flip, ...)
+- Find bettwer way to position image

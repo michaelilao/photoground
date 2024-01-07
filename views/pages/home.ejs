@@ -4,22 +4,16 @@
   <body class="min-w-96">
     <header><%- include('../partials/nav'); %></header>
     <main>
-      <section class="text-center m-auto w-11/12 md:w-1/2 pt-16">
+      <section class="text-center m-auto w-11/12 md:w-1/2 md:pt-16">
         <div>
           <h2 class="text-2xl py-2 font-bold">Welcome Back <%= user.name %></h2>
         </div>
       </section>
       <section>
-        <div class="flex gap-6 flex-wrap w-11/12 md:w-10/12 m-auto justify-center sm:justify-center">
-          <%- include('../partials/gallery-header'); %>
-          <%- include('../partials/gallery'); %>
-        </div>
+        <div class="flex gap-6 flex-wrap w-11/12 md:w-10/12 m-auto justify-center sm:justify-center"><%- include('../partials/gallery-header'); %> <%- include('../partials/gallery'); %></div>
       </section>
     </main>
-    <%- include('../partials/footer'); %>
-    <%- include('../partials/toast'); %>
-    <%- include('../partials/modal'); %>
+    <%- include('../partials/footer'); %> <%- include('../partials/toast'); %> <%- include('../partials/modal'); %>
   </body>
   <script defer type="module" src="js/home.js"></script>
-
 </html>

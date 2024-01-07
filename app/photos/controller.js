@@ -60,20 +60,13 @@ const file = async (req, res) => {
   const options = {
     root: path.join(__dirname, '..', '..'),
   };
-  return res.sendFile(photoPath, options, (err) => {
-    if (err) {
-      res.status(404).json({
-        error: true,
-        message: 'requested photo does not exist',
-        status: 404,
-      });
-    }
-  });
+  return res.sendFile(photoPath, options);
 };
 
 const remove = async (req, res) => {
   const { photoId } = req.params;
   const deleteRecord = await deletePhotoRecord(req.user.userId, photoId);
+
   if (deleteRecord.error) {
     return res.status(deleteRecord.status).json({
       error: true,
@@ -87,7 +80,7 @@ const remove = async (req, res) => {
   // Flag to delete from file system
   if (deleteFileFlag) {
     fs.rm(photoPath, (err) => {
-      console.error(err);
+      if (err) console.error(err);
     });
   }
 

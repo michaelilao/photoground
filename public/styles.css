@@ -73,10 +73,24 @@ main {
   background-color: var(--smoke);
 }
 
+.btn-danger {
+  color: var(--smoke);
+  background-color: var(--red);
+  border: var(--red);
+  border-width: 2px;
+  border-style: solid;
+}
+
+.btn-danger:hover {
+  color: var(--red);
+  background-color: var(--smoke);
+}
+
 @media only screen and (max-width: 768px) {
   .btn {
     width: 100%;
     padding: 8px 0px;
     margin: 8px 0px;
+    box-sizing: border-box;
   }
 }

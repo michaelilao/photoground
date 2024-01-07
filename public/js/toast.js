@@ -1,6 +1,7 @@
+const toastParent = document.getElementById('toast');
+const toastText = document.getElementById('toast-text');
+
 function toast(message, type) {
-  const toastParent = document.getElementById('toast');
-  const toastText = document.getElementById('toast-text');
   toastText.innerText = message;
   toastParent.classList.remove('opacity-0');
   toastParent.classList.add('opacity-100');
@@ -18,5 +19,4 @@ function toast(message, type) {
     toastParent.classList.add('opacity-0');
   }, '3000');
 }
-
 export { toast };

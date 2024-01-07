@@ -53,7 +53,7 @@ function previewFile(file) {
     buttonContainer.classList.add('ml:auto', 'md:w-full');
 
     const button = document.createElement('button');
-    button.classList.add('hover:bg-red', 'p-2', 'rounded-full', 'transition-colors');
+    button.classList.add('hover:bg-red', 'p-1', 'rounded-full', 'transition-colors');
 
     const trash = document.createElement('img');
     trash.src = 'icons/trash.svg';
