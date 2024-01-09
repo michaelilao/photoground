@@ -51,10 +51,8 @@ function modalOpen(imageSrc, itemId) {
   const min = Math.min(containerHeight, containerWidth);
   let scaleDown;
   if (imageWidth > imageHeight) {
-    // landscape
     scaleDown = min / imageWidth;
   } else {
-    // portrait
     scaleDown = min / imageHeight;
   }
 
