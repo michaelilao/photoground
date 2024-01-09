@@ -5,7 +5,7 @@ import { toast } from './toast.js';
 const modal = document.getElementById('modal');
 const modalImage = document.getElementById('modal-image');
 const modalCloseButton = document.getElementById('modal-close-button');
-
+const modalImageContainer = document.getElementById('modal-image-container');
 const deleteButton = document.getElementById('photo-delete');
 const rotateLeftButton = document.getElementById('photo-rotate-left');
 const rotateRightButton = document.getElementById('photo-rotate-right');
@@ -37,8 +37,32 @@ function toggleModal() {
 
 function modalOpen(imageSrc, itemId) {
   toggleModal();
+  modalImage.setAttribute('class', 'm-auto');
   modalImage.src = imageSrc;
   currentItemId = itemId;
+
+  const containerHeight = modalImageContainer.offsetHeight;
+  const containerWidth = modalImageContainer.offsetWidth;
+
+  const originalImage = document.getElementById(itemId).children[0];
+  let imageHeight = originalImage.offsetHeight;
+  let imageWidth = originalImage.offsetWidth;
+
+  const min = Math.min(containerHeight, containerWidth);
+  let scaleDown;
+  if (imageWidth > imageHeight) {
+    // landscape
+    scaleDown = min / imageWidth;
+  } else {
+    // portrait
+    scaleDown = min / imageHeight;
+  }
+
+  imageWidth = Math.round(imageWidth * scaleDown);
+  imageHeight = Math.round(imageHeight * scaleDown);
+
+  modalImage.classList.add(`max-w-[${imageWidth}px]`);
+  modalImage.classList.add(`max-h-[${imageHeight}px]`);
 }
 
 window.onclick = function (event) {

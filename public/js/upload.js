@@ -3,7 +3,7 @@ import { toast } from './toast.js';
 import { mb, returnFileSize, preventDefaults } from './utils.js';
 
 // Constants
-const sizeLimit = mb * 20;
+const sizeLimit = mb * 10;
 
 // Get Elements
 const submitButton = document.getElementById('submit-button');
@@ -81,7 +81,7 @@ function handleFiles(files) {
 async function submit() {
   const size = pendingFiles.reduce((partialSum, file) => partialSum + file.size, 0);
   if (size > sizeLimit) {
-    toast('You have exceeded to 20MB file limit', 'error');
+    toast('You have exceeded to 10MB file limit', 'error');
     return;
   }
   try {

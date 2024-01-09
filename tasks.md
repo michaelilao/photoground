@@ -3,13 +3,11 @@ BACKEND
 - documentation for api
 - dynamic db statements / orm
 - issues with private mode on safari
-- check speed and non blocking
+- check speed and non blocking on photo upload
 - format return messages
 
 FRONTEND
 
-- hanldle mobile loading sizes
-- Allow deletion of images
-- Modal to view image full screen
-- Allow image alterations (roatate, flip, ...)
-- Find bettwer way to position image
+- handle mobile loading sizes
+- allow image alterations (roatate, flip, ...)
+- find bettwer way to position image

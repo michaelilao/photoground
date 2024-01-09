@@ -8,7 +8,7 @@ const { formatBody } = require('../middleware/format');
 const { rawPath } = require('../config');
 
 const mb = 1048576; // bytes to mb
-const sizeLimit = mb * 20;
+const sizeLimit = mb * 10;
 const upload = multer({ dest: rawPath, limits: { fileSize: sizeLimit } }).any();
 
 router.post('/upload', [authenticate, upload, formatBody, validateBody(schemas.upload)], controller.upload);
