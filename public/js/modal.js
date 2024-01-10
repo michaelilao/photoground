@@ -48,12 +48,11 @@ function modalOpen(imageSrc, itemId) {
   let imageHeight = originalImage.offsetHeight;
   let imageWidth = originalImage.offsetWidth;
 
-  const min = Math.min(containerHeight, containerWidth);
   let scaleDown;
   if (imageWidth > imageHeight) {
-    scaleDown = min / imageWidth;
+    scaleDown = containerWidth / imageWidth;
   } else {
-    scaleDown = min / imageHeight;
+    scaleDown = containerHeight / imageHeight;
   }
 
   imageWidth = Math.round(imageWidth * scaleDown);

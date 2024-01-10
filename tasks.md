@@ -5,6 +5,7 @@ BACKEND
 - issues with private mode on safari
 - check speed and non blocking on photo upload
 - format return messages
+- extract out db layer and file system layer
 
 FRONTEND
 
