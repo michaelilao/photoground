@@ -10,5 +10,4 @@ BACKEND
 FRONTEND
 
 - handle mobile loading sizes
-- allow image alterations (roatate, flip, ...)
-- find bettwer way to position image
+- rotate not working on mobile

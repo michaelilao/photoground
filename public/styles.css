@@ -22,6 +22,7 @@
   --mint: #c2edce;
   --smoke: #f6f6f2;
   --red: #ff6961;
+  --black: #000000;
 }
 
 body {
@@ -83,6 +84,19 @@ main {
 
 .btn-danger:hover {
   color: var(--red);
+  background-color: var(--smoke);
+}
+
+.btn-success {
+  color: var(--black);
+  background-color: var(--mint);
+  border: var(--mint);
+  border-width: 2px;
+  border-style: solid;
+}
+
+.btn-success:hover {
+  color: var(--mint);
   background-color: var(--smoke);
 }
 
