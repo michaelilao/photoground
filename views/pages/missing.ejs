@@ -6,11 +6,10 @@
     <main>
       <section class="text-center m-auto w-11/12 md:w-1/2 md:pt-16">
         <div>
-          <h2 class="text-2xl py-2 font-bold">welcome back <%= user.name %></h2>
+          <h2 class="text-2xl py-2 font-bold">the page you were looking for does not exist</h2>
+          <p class="">you might have typed in the wrong address or the page has been moved, try again later or go <a class="text-teal hover:underline whitespace-nowrap" href="/">back to home</a></p>
+          <img class="m-auto my-8" src="icons/ghost.svg" width="48" height="48" />
         </div>
-      </section>
-      <section>
-        <div class="flex gap-6 flex-wrap w-11/12 md:w-10/12 m-auto justify-center sm:justify-center"><%- include('../partials/gallery-header'); %> <%- include('../partials/gallery'); %></div>
       </section>
     </main>
     <%- include('../partials/footer'); %> <%- include('../partials/toast'); %> <%- include('../partials/modal'); %>

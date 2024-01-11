@@ -96,7 +96,7 @@ main {
 }
 
 .btn-success:hover {
-  color: var(--mint);
+  color: var(--black);
   background-color: var(--smoke);
 }
 

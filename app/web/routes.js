@@ -75,4 +75,15 @@ router.get('/logout', (req, res) => {
   return res.redirect('/');
 });
 
+// catch web pages
+router.get('/*', (req, res) => {
+  const user = authenticateWeb(req);
+  if (!user) {
+    return res.render('pages/missing', {});
+  }
+
+  res.status(404);
+  return res.render('pages/missing', { user });
+});
+
 module.exports = router;

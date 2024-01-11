@@ -92,6 +92,10 @@ function toggleModal() {
 }
 
 function modalOpen(imageSrc, itemId) {
+  actionRow.classList.remove('hidden');
+  deleteConfirmRow.classList.add('hidden');
+  saveConfirmRow.classList.add('hidden');
+
   toggleModal();
   modalImage.setAttribute('class', 'm-auto');
   modalImage.src = imageSrc;

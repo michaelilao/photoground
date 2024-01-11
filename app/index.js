@@ -35,6 +35,7 @@ ensureExists(photoPath);
 // API Routes
 app.use(`${api}/users`, users);
 app.use(`${api}/photos`, photos);
+app.use(`${api}/*`, (req, res) => res.status(404).send(`404 api route ${req.originalUrl} does not exist`));
 app.use('/', web);
 
 require('./database')().then(() => {
