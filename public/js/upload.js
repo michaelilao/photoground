@@ -9,6 +9,8 @@ const sizeLimit = mb * 10;
 const submitButton = document.getElementById('submit-button');
 const dropArea = document.getElementById('drop-area');
 const uploadInput = document.getElementById('upload-input');
+const uploadForm = document.getElementById('photo-upload');
+const loading = document.getElementById('loading');
 
 // States
 let pendingFiles = [];
@@ -85,6 +87,8 @@ async function submit() {
     return;
   }
   try {
+    uploadForm.classList.toggle('hidden');
+    loading.classList.toggle('hidden');
     const url = '/api/v1/photos/upload';
     const formData = new FormData();
     pendingFiles.forEach((photo) => {
@@ -101,6 +105,8 @@ async function submit() {
     const data = await response.json();
     if (data.error) {
       toast(data.message, 'error');
+      uploadForm.classList.toggle('hidden');
+      loading.classList.toggle('hidden');
       return;
     }
 
@@ -110,6 +116,8 @@ async function submit() {
       window.location.replace('/');
     }, 1000);
   } catch (err) {
+    uploadForm.classList.toggle('hidden');
+    loading.classList.toggle('hidden');
     toast('error occurred please try again later', 'error');
   }
 }

@@ -1,27 +1,23 @@
 BACKEND
 
-- documentation for api
-- dynamic db statements / orm
-- issues with private mode on safari
-- check speed and non blocking on photo upload
-- format return messages
-- extract out db layer and file system layer
-- 404
-- limit who can register
-- image resize and compression
+- documentation for api swagger - MED
+- dynamic db statements / orm - LOW
+- extract out db layer and file system layer - MED
+- limit who can register - HIGH
 
 FRONTEND
 
-- handle mobile loading sizes
-- rotate not working on mobile
-- dynamic gallery
-- tailwind
+- handle mobile loading sizes - HIGH
+- rotate not working on mobile - HIGH
+- dynamic gallery - MED
+- tailwind - HIGH
+- poll for recently added photos, poll for 30s after landing - MED
 
 CLOUD
 
-- SEO, sitemap.xml, searchable on google
-- pipelines
+- SEO, sitemap.xml, searchable on google - MED
+- pipelines - MED
 
 MISC
 
-- documentation
+- documentation/readme - MED

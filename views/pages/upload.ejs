@@ -7,7 +7,7 @@
       <section class="text-center m-auto w-11/12 md:w-1/2 md:pt-16">
         <h2 class="text-2xl py-2 font-bold">upload photos</h2>
         <div id="drop-area" class="border-2 border-dashed border-teal py-16 px-4 sm:px-12 mt-4">
-          <form class="photo-upload" onsubmit="return false" action="">
+          <form id="photo-upload" onsubmit="return false" action="">
             <img class="mx-auto py-4" src="icons/upload.svg" width="48" height="48" />
             <h3>drag and drop image</h3>
             <div>or</div>
@@ -19,12 +19,12 @@
             <div class="text-sm italic">upload up to 10MB</div>
             <div id="gallery" class="flex flex-wrap pt-8"></div>
           </form>
+          <div id="loading" class="m-auto py-16 px-4 hidden">
+            <img src="icons/loading.svg" class="animate-spin m-auto" width="48" height="48" />
+          </div>
         </div>
       </section>
-      <div class="text-white">
-        <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"></svg>
-        <img src="icons/loading.svg" class="animate-spin" width="48" height="48" />
-      </div>
+
       <%- include('../partials/toast'); %>
     </main>
     <%- include('../partials/footer'); %>
