@@ -15,6 +15,7 @@ FRONTEND
 - handle mobile loading sizes
 - rotate not working on mobile
 - dynamic gallery
+- tailwind
 
 CLOUD
 
