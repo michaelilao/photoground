@@ -103,7 +103,12 @@ async function submit() {
       toast(data.message, 'error');
       return;
     }
-    window.location.replace('/');
+
+    toast('uploaded successfully', 'success');
+
+    setTimeout(() => {
+      window.location.replace('/');
+    }, 1000);
   } catch (err) {
     toast('error occurred please try again later', 'error');
   }
