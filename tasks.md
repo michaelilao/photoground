@@ -12,6 +12,7 @@ FRONTEND
 - dynamic gallery - MED
 - tailwind - HIGH
 - poll for recently added photos, poll for 30s after landing - MED
+- put modal image in its own class
 
 CLOUD
 

@@ -1,6 +1,6 @@
 /* eslint-disable import/extensions */
 import { toast } from './toast.js';
-
+import { ModalImage } from './ModalImage.js';
 // Get Elements
 const modal = document.getElementById('modal');
 const modalImage = document.getElementById('modal-image');
@@ -20,50 +20,8 @@ const saveConfirmRow = document.getElementById('save-confirm-row');
 const saveCancelButton = document.getElementById('save-cancel');
 const saveConfirmButton = document.getElementById('save-confirm');
 
-const currentItem = {
-  id: '',
-  rotation: 0, // 0 90 180 270
-  orientation: '', // landscape portrait
-  width: 0,
-  height: 0,
-};
-
-const rotationClasses = {
-  0: '',
-  90: 'rotate-[90deg] origin-left translate-x-1/2 -translate-y-1/2',
-  180: 'rotate-[180deg]',
-  270: 'rotate-[270deg] origin-right -translate-x-1/2 -translate-y-1/2',
-};
-
+let currentItem;
 // Clean this mess up
-function rotate(direction) {
-  const classes = Array.from(modalImage.classList);
-  let currentRotation = classes.filter((className) => className.includes('rotate'));
-  currentRotation = currentRotation.length ? currentRotation[0] : 'rotate-[0deg]';
-  const init = currentRotation.indexOf('[');
-  const fin = currentRotation.indexOf('deg]');
-  currentRotation = currentRotation.substr(init + 1, fin - init - 1);
-  let newOrientation = Number(currentRotation) + direction;
-  newOrientation %= 360;
-  if (newOrientation < 0) {
-    newOrientation += 360;
-  }
-
-  let newWidth;
-  let newHeight;
-  classes.forEach((className) => {
-    if (className.includes('-w-')) {
-      newHeight = className.replace('-w-', '-h-');
-    }
-    if (className.includes('-h-')) {
-      newWidth = className.replace('-h-', '-w-');
-    }
-  });
-
-  const swappedDimentions = [newWidth, newHeight, 'm-auto'];
-  const newClasses = `${swappedDimentions.join(' ')} ${rotationClasses[newOrientation]}`;
-  modalImage.setAttribute('class', newClasses);
-}
 
 function showDelete() {
   actionRow.classList.add('hidden');
@@ -84,7 +42,6 @@ function hideSave() {
   actionRow.classList.remove('hidden');
   saveConfirmRow.classList.add('hidden');
 }
-
 function toggleModal() {
   modal.classList.toggle('hidden');
   modal.classList.toggle('fixed');
@@ -92,34 +49,20 @@ function toggleModal() {
 }
 
 function modalOpen(imageSrc, itemId) {
+  // Show actions and hide confirm
+  modalImage.src = imageSrc;
+
   actionRow.classList.remove('hidden');
   deleteConfirmRow.classList.add('hidden');
   saveConfirmRow.classList.add('hidden');
 
+  // Show the moddel
   toggleModal();
-  modalImage.setAttribute('class', 'm-auto');
-  modalImage.src = imageSrc;
-  currentItem.id = itemId;
-
-  const containerHeight = modalImageContainer.offsetHeight;
-  const containerWidth = modalImageContainer.offsetWidth;
-
-  const originalImage = document.getElementById(itemId).children[0];
-  let imageHeight = originalImage.offsetHeight;
-  let imageWidth = originalImage.offsetWidth;
-
-  let scaleDown;
-  if (imageWidth > imageHeight) {
-    scaleDown = containerWidth / imageWidth;
-  } else {
-    scaleDown = containerHeight / imageHeight;
-  }
-
-  imageWidth = Math.round(imageWidth * scaleDown);
-  imageHeight = Math.round(imageHeight * scaleDown);
-
-  modalImage.classList.add(`max-w-[${containerWidth}px]`);
-  modalImage.classList.add(`max-h-[${containerHeight}px]`);
+  modalImage.onload = () => {
+    const containerWidth = modalImageContainer.offsetWidth;
+    const containerHeight = modalImageContainer.offsetHeight;
+    currentItem = new ModalImage(itemId, imageSrc, modalImage, containerWidth, containerHeight);
+  };
 }
 
 window.onclick = function (event) {
@@ -157,8 +100,8 @@ async function deletePhoto() {
 }
 // Event listeners
 modalCloseButton.addEventListener('click', () => toggleModal(), false);
-rotateLeftButton.addEventListener('click', () => rotate(-90), false);
-rotateRightButton.addEventListener('click', () => rotate(90), false);
+rotateLeftButton.addEventListener('click', () => currentItem.rotate(-90), false);
+rotateRightButton.addEventListener('click', () => currentItem.rotate(90), false);
 
 deleteButton.addEventListener('click', () => showDelete(), false);
 deleteCancelButton.addEventListener('click', () => hideDelete(), false);
