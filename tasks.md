@@ -5,12 +5,10 @@ BACKEND
 - extract out db layer and file system layer - MED
 - limit who can register - HIGH
 - favourite and tags
-- promise chaining to async await
 
 FRONTEND
 
 - dynamic gallery - MED
-- tailwind - HIGH
 - poll for recently added photos, poll for 30s after landing - MED
 - put modal image in its own class
 
