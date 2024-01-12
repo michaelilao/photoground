@@ -1,8 +1,8 @@
 const fs = require('fs');
 const path = require('path');
 const { deleteFileFlag } = require('../config');
-// eslint-disable-next-line max-len
-const { modifyPhoto, createPhotosDirectory, createPhotoRecords, getPhotoBatchStatus, getPhotoList, getUserPhotoPath, deletePhotoRecord } = require('./services');
+const { modifyPhoto, createPhotosDirectory, createPhotoRecords, getPhotoBatchStatus, getPhotoList, deletePhotoRecord } = require('./services');
+const { getUserPhotoPath } = require('./utils');
 
 const upload = async (req, res) => {
   // Check if users folder exists, if not create it and return the user

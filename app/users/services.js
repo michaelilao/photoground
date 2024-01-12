@@ -8,18 +8,15 @@ const { tokenAge } = require('../config');
 const createUser = async (name, email, password) => {
   try {
     const connection = await db();
-
     // Check if user exists in DB
     const userExists = await new Promise((resolve, reject) => {
-      connection.get(scripts.getUserByEmail, [email], async (err, row) => {
+      connection.get(scripts.getUserByEmail, [email], (err, row) => {
         if (err) {
           reject(err);
         }
-
         if (row && row?.userId) {
           return resolve(true);
         }
-
         return resolve(false);
       });
     });
@@ -33,8 +30,8 @@ const createUser = async (name, email, password) => {
     const encryptedPassword = await bcrypt.hash(password, Number(salt));
 
     // Insert user into DB
+    const userId = crypto.randomUUID();
     await new Promise((resolve, reject) => {
-      const userId = crypto.randomUUID();
       connection.run(scripts.insertUser, [userId, name, email, encryptedPassword], (err) => {
         if (err) {
           reject(err);
@@ -45,11 +42,10 @@ const createUser = async (name, email, password) => {
 
     // Get created user id
     const newUser = await new Promise((resolve, reject) => {
-      connection.get(scripts.getUserByEmail, [email], async (err, row) => {
+      connection.get(scripts.getUserByEmail, [email], (err, row) => {
         if (err) {
           reject(err);
         }
-
         if (row && row?.userId) {
           resolve(row);
         } else {
@@ -75,7 +71,7 @@ const loginUser = async (email, password) => {
     // Check if user exists in DB
     const connection = await db();
     const user = await new Promise((resolve, reject) => {
-      connection.get(scripts.getUserPasswordByEmail, [email], async (err, row) => {
+      connection.get(scripts.getUserPasswordByEmail, [email], (err, row) => {
         if (err) {
           reject(err);
         }
