@@ -139,7 +139,9 @@ const createPhotoRecords = async (files, userId) => {
           const fields = Object.keys(photoData).map((key) => photosSchema[key]);
 
           fs.unlink(currentPath, (deleteErr) => {
-            console.error(deleteErr);
+            if (deleteErr) {
+              console.error(deleteErr);
+            }
           });
 
           connection.run(photoScripts.updatePhoto(fields), [...Object.values(photoData), photoId], (updateErr) => {

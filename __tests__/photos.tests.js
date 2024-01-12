@@ -48,7 +48,7 @@ describe('create photo directory ', () => {
 
 describe('create photo batch ', () => {
   it('should create photo records in db and return a batch id of the job', async () => {
-    await fs.appendFileSync(testFile.path, 'some jpg data');
+    await fs.copyFileSync('./public/images/default1.jpg', testFile.path);
     batchId = await services.createPhotoRecords([testFile], testUser.user.userId);
     expect(batchId.length).toBeGreaterThan(0);
   });
@@ -69,8 +69,13 @@ describe('get photo batch status', () => {
 
 describe('get photo list', () => {
   it('should get all user photos', async () => {
+    // Sleep for 1s so backend can process batch
+    await new Promise((r) => {
+      setTimeout(r, 1000);
+    });
     const photos = await services.getPhotoList(testUser.user.userId);
-    [photo] = photos;
+    // eslint-disable-next-line prefer-destructuring
+    photo = photos[0];
     expect(photo.name).toBe(testFile.originalname);
   });
 });
