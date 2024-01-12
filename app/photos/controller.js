@@ -1,7 +1,8 @@
 const fs = require('fs');
 const path = require('path');
 const { deleteFileFlag } = require('../config');
-const { createPhotosDirectory, createPhotoRecords, getPhotoBatchStatus, getPhotoList, getUserPhotoPath, deletePhotoRecord } = require('./services');
+// eslint-disable-next-line max-len
+const { modifyPhoto, createPhotosDirectory, createPhotoRecords, getPhotoBatchStatus, getPhotoList, getUserPhotoPath, deletePhotoRecord } = require('./services');
 
 const upload = async (req, res) => {
   // Check if users folder exists, if not create it and return the user
@@ -90,4 +91,32 @@ const remove = async (req, res) => {
     status: 200,
   });
 };
-module.exports = { upload, status, list, file, remove };
+
+const save = async (req, res) => {
+  const { photoId, rotate } = req.body;
+  const modifiedPhoto = await modifyPhoto(req.user.userId, photoId, { rotate });
+
+  if (modifiedPhoto.error) {
+    return res.status(modifiedPhoto.status).json({
+      error: true,
+      message: modifiedPhoto.message,
+      status: modifiedPhoto.status,
+    });
+  }
+
+  return res.status(200).json({
+    error: false,
+    message: 'photo updated successfully',
+    status: 200,
+    data: { photoId, rotate },
+  });
+};
+
+module.exports = {
+  upload,
+  status,
+  list,
+  file,
+  remove,
+  save,
+};

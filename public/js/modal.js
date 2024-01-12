@@ -43,6 +43,9 @@ function hideSave() {
   saveConfirmRow.classList.add('hidden');
 }
 function toggleModal() {
+  if (currentItem) {
+    currentItem.close();
+  }
   modal.classList.toggle('hidden');
   modal.classList.toggle('fixed');
   document.body.classList.toggle('overflow-hidden');
@@ -70,7 +73,47 @@ window.onclick = function (event) {
     toggleModal();
   }
 };
-function savePhoto() {}
+
+async function reloadImg(url, id) {
+  const updateCacheUrl = `${url}?${new Date().getTime()}`;
+  await fetch(updateCacheUrl, { cache: 'reload', mode: 'no-cors' });
+  const img = document.getElementById(id).children[0];
+
+  img.src = updateCacheUrl;
+}
+
+async function savePhoto() {
+  try {
+    if (!currentItem.id) {
+      return;
+    }
+    const url = '/api/v1/photos/save';
+
+    const response = await fetch(url, {
+      body: JSON.stringify({ photoId: currentItem.id, rotate: currentItem.rotation }),
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      cors: 'same-origin',
+      credentials: 'same-origin',
+    });
+
+    const data = await response.json();
+    if (data.error || data.status !== 200) {
+      toast(data.message, 'error');
+    }
+
+    setTimeout(() => {
+      reloadImg(`/api/v1/photos/${currentItem.id}`, currentItem.id);
+    }, '500');
+
+    toast('photo updated successfully', 'success');
+    hideSave();
+  } catch (err) {
+    toast('error occurred please try again later', 'error');
+  }
+}
 async function deletePhoto() {
   try {
     if (!currentItem.id) {
@@ -85,7 +128,7 @@ async function deletePhoto() {
     });
 
     const data = await response.json();
-    if (data.error) {
+    if (data.error || data.status !== 200) {
       toast(data.message, 'error');
     }
 

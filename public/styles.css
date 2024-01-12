@@ -87,18 +87,6 @@ main {
   background-color: var(--smoke);
 }
 
-.btn-success {
-  color: var(--black);
-  background-color: var(--mint);
-  border: var(--mint);
-  border-width: 2px;
-  border-style: solid;
-}
-
-.btn-success:hover {
-  color: var(--black);
-  background-color: var(--smoke);
-}
 
 @media only screen and (max-width: 768px) {
   .btn {

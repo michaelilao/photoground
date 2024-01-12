@@ -11,6 +11,7 @@ const mb = 1048576; // bytes to mb
 const sizeLimit = mb * 10;
 const upload = multer({ dest: rawPath, limits: { fileSize: sizeLimit } }).any();
 
+router.patch('/save', [authenticate, validateBody(schemas.save)], controller.save);
 router.post('/upload', [authenticate, upload, formatBody, validateBody(schemas.upload)], controller.upload);
 router.get('/status', [authenticate, validateParams(schemas.status)], controller.status);
 router.get('/list', [authenticate, validateParams(schemas.list)], controller.list);

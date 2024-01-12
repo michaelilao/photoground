@@ -49,4 +49,9 @@ const photo = Joi.object({
   photoId: Joi.string().required()
 });
 
-module.exports = { upload, status, list, photosSchema, photo };
+const save = Joi.object({
+  photoId: Joi.string().required(),
+  rotate: Joi.number().valid(0, 90, 180, 270, 360),
+});
+
+module.exports = { upload, status, list, photosSchema, photo, save };

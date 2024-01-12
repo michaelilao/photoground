@@ -4,11 +4,11 @@ BACKEND
 - dynamic db statements / orm - LOW
 - extract out db layer and file system layer - MED
 - limit who can register - HIGH
+- favourite and tags
+- promise chaining to async await
 
 FRONTEND
 
-- handle mobile loading sizes - HIGH
-- rotate not working on mobile - HIGH
 - dynamic gallery - MED
 - tailwind - HIGH
 - poll for recently added photos, poll for 30s after landing - MED
@@ -22,3 +22,8 @@ CLOUD
 MISC
 
 - documentation/readme - MED
+
+BUGS
+
+- rotate bugs after saving - hard to recreate
+- modal image/height sometimes not fitting

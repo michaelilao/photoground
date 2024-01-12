@@ -82,20 +82,27 @@ const createPhotoRecords = async (files, userId) => {
         return;
       }
       const photoData = {};
-      const metaData = await getPhotoMetaData(currentPath);
-      if (metaData) {
-        photoData.dateOriginal = formatDate(metaData?.exif?.DateTimeOriginal);
-        photoData.width = metaData?.exif?.ExifImageWidth;
-        photoData.height = metaData?.exif?.ExifImageHeight;
+      const image = sharp(currentPath);
+      const metaData = await image.metadata();
+
+      const exifMetaData = await getPhotoMetaData(currentPath);
+      if (exifMetaData) {
+        photoData.dateOriginal = formatDate(exifMetaData?.exif?.DateTimeOriginal);
+        photoData.width = exifMetaData?.exif?.ExifImageWidth;
+        photoData.height = exifMetaData?.exif?.ExifImageHeight;
       }
 
-      if (metaData?.gps) {
-        const { GPSLatitudeRef, GPSLatitude, GPSLongitudeRef, GPSLongitude } = metaData.gps;
+      if (!photoData.width || !photoData.height) {
+        photoData.width = metaData.width;
+        photoData.height = metaData.height;
+      }
+
+      if (exifMetaData?.gps) {
+        const { GPSLatitudeRef, GPSLatitude, GPSLongitudeRef, GPSLongitude } = exifMetaData.gps;
         const [latitude, longitude] = formatCoords(GPSLatitude, GPSLatitudeRef, GPSLongitude, GPSLongitudeRef);
         photoData.latitude = latitude;
         photoData.longitude = longitude;
       }
-
       const hex = await getAverageColorSafe(currentPath);
       if (hex) {
         photoData.hex = hex.hex;
@@ -121,7 +128,7 @@ const createPhotoRecords = async (files, userId) => {
         scaledWidth = Math.round(photoData.width * scale);
       }
 
-      sharp(currentPath)
+      image
         .resize(scaledWidth, scaledHeight, { withoutEnlargement: true })
         .jpeg({ progressive: true, force: false, quality: 80 })
         .png({ progressive: true, force: false, quality: 80 })
@@ -187,7 +194,10 @@ const getPhotoList = async (userId, limit = 10, offset = 0, sort = 'asc', order 
         resolve(rows);
       });
     });
-    return photoList;
+    return photoList.map((photo) => ({
+      ...photo,
+      src: `${process.env.API_PATH}/photos/${photo.photoId}`,
+    }));
   } catch (err) {
     console.error(err);
     return { error: true, message: err.code || err.message || err, status: 500 };
@@ -218,6 +228,40 @@ const deletePhotoRecord = async (userId, photoId) => {
     return { error: true, message: err.code || err.message || err, status: 500 };
   }
 };
+const modifyPhoto = async (userId, photoId, options) => {
+  // get the photo and make sure it exists
+  const connection = await db();
+
+  const photoExists = await new Promise((resolve) => {
+    connection.get(photoScripts.getPhotoById, [userId, photoId], (err, row) => {
+      if (err) resolve(false);
+      if (!row) resolve(false);
+      resolve(true);
+    });
+  });
+
+  if (!photoExists) {
+    return { error: true, message: 'photo does not exist', status: 404 };
+  }
+
+  const path = `${getUserPhotoPath(userId)}/${photoId}`;
+  let modifiedImage = sharp(path);
+  if (options.rotate) {
+    modifiedImage = modifiedImage.rotate(options.rotate);
+  }
+
+  return modifiedImage.toBuffer((bufferErr, buffer) => {
+    if (bufferErr) {
+      return { error: true, message: 'error updating photo', status: 500 };
+    }
+    return fs.writeFile(path, buffer, (writeErr) => {
+      if (writeErr) {
+        return { error: true, message: 'error updating photo', status: 500 };
+      }
+      return { error: false };
+    });
+  });
+};
 
 module.exports = {
   createPhotosDirectory,
@@ -226,4 +270,5 @@ module.exports = {
   getUserPhotoPath,
   getPhotoList,
   deletePhotoRecord,
+  modifyPhoto,
 };

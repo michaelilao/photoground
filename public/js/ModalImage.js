@@ -85,9 +85,6 @@ class ModalImage {
     if (newOrientation < 0) {
       newOrientation += 360;
     }
-
-    console.log(rotationClasses[this.rotation]);
-    console.log(rotationClasses[newOrientation]);
     if (this.rotation !== 0) {
       this.element.classList.remove(...rotationClasses[this.rotation]);
     }
@@ -96,6 +93,12 @@ class ModalImage {
       this.element.classList.add(...rotationClasses[newOrientation]);
     }
     this.rotation = newOrientation;
+  }
+
+  close() {
+    if (this.rotation !== 0) {
+      this.element.classList.remove(...rotationClasses[this.rotation]);
+    }
   }
 }
 export { ModalImage };

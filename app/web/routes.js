@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const { getStaticPhotos } = require('./services');
 const { authenticateWeb } = require('../middleware/auth');
 const { getPhotoList } = require('../photos/services');
 
@@ -20,7 +21,8 @@ const generateHref = (col, currentOrder, currentSort) => {
 router.get('/', async (req, res) => {
   const user = authenticateWeb(req);
   if (!user) {
-    return res.render('pages/root');
+    const staticPhotos = await getStaticPhotos();
+    return res.render('pages/root', { photos: staticPhotos });
   }
   const order = req.query.order || 'dateOriginal';
   const sort = req.query.sort || 'asc';
