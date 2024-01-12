@@ -1,7 +1,8 @@
 const fs = require('fs');
 const path = require('path');
 const { deleteFileFlag } = require('../config');
-const { modifyPhoto, createPhotosDirectory, createPhotoRecords, getPhotoBatchStatus, getPhotoList, deletePhotoRecord } = require('./services');
+// eslint-disable-next-line max-len
+const { modifyPhoto, createPhotosDirectory, createPhotoRecords, getPhotoBatchStatus, getPhotoList, deletePhotoRecord, checkUserExceedPhotoLimit } = require('./services');
 const { getUserPhotoPath } = require('./utils');
 
 const upload = async (req, res) => {
@@ -15,6 +16,8 @@ const upload = async (req, res) => {
     });
   }
 
+  // Check is user is above photo limit
+  await checkUserExceedPhotoLimit(req.user.userId);
   // Create a photo record for each uploaded file and move to user folder
   const batchId = await createPhotoRecords(req.body.files, req.user.userId);
   return res.status(200).json({

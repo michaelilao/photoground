@@ -226,6 +226,29 @@ const modifyPhoto = async (userId, photoId, options) => {
   });
 };
 
+const checkUserExceedPhotoLimit = async (userId) => {
+  const connection = await db();
+  try {
+    const numPhotos = await new Promise((resolve, reject) => {
+      console.log()
+      connection.get(photoScripts.photoScripts, [userId], async (err, row) => {
+        if (err) {
+          reject(err);
+        }
+
+        if (row && row?.userId) {
+          return resolve(row);
+        }
+
+        return resolve(false);
+      });
+    });
+    console.log(numPhotos);
+  } catch (err) {
+    console.log(err);
+  }
+  return { error: true, message: 'error updating photo', status: 500 };
+};
 module.exports = {
   createPhotosDirectory,
   createPhotoRecords,
@@ -234,4 +257,5 @@ module.exports = {
   getPhotoList,
   deletePhotoRecord,
   modifyPhoto,
+  checkUserExceedPhotoLimit,
 };

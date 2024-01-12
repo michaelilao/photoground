@@ -1,3 +1,5 @@
+const mb = 1048576; // bytes to mb
+
 module.exports = {
   photoPath: `./${process.env.NODE_ENV}-files/photos`,
   rawPath: `./${process.env.NODE_ENV}-files/raw`,
@@ -8,4 +10,6 @@ module.exports = {
   deleteFileFlag: true,
   maxImageWidth: 2240,
   maxImageHeight: 1260,
+  uploadLimit: mb * 10,
+  fileLimit: 30, // only 30 photos for now
 };

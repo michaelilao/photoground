@@ -37,3 +37,5 @@ exports.getPhotoListByParams = (sort, order) => `SELECT photo_id as photoId, nam
     LIMIT ? OFFSET ?`;
 
 exports.getPhotoById = 'SELECT photo_id as photoId, name, photo_type as photoType FROM photos WHERE user_id = ? AND photo_id = ?';
+
+exports.getUserPhotoCount = 'SELECT COUNT(*) FROM photos WHERE user_id = ?;';

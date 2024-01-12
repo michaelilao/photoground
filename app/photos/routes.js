@@ -5,11 +5,9 @@ const schemas = require('./models');
 const { validateBody, validateParams } = require('../middleware/validate');
 const { authenticate } = require('../middleware/auth');
 const { formatBody } = require('../middleware/format');
-const { rawPath } = require('../config');
+const { rawPath, uploadLimit } = require('../config');
 
-const mb = 1048576; // bytes to mb
-const sizeLimit = mb * 10;
-const upload = multer({ dest: rawPath, limits: { fileSize: sizeLimit } }).any();
+const upload = multer({ dest: rawPath, limits: { fileSize: uploadLimit } }).any();
 
 router.patch('/save', [authenticate, validateBody(schemas.save)], controller.save);
 router.post('/upload', [authenticate, upload, formatBody, validateBody(schemas.upload)], controller.upload);
