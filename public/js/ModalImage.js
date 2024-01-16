@@ -28,7 +28,9 @@ class ModalImage {
 
   element;
 
-  constructor(id, src, element, containerWidth, containerHeight) {
+  isFavourite = false;
+
+  constructor(id, src, element, containerWidth, containerHeight, isFavourite) {
     this.id = id;
     this.containerWidth = containerWidth * 0.9;
     this.containerHeight = containerHeight * 0.9;
@@ -41,6 +43,7 @@ class ModalImage {
     } else {
       this.orientation = 'portrait'; // if same doesnt matter
     }
+    this.isFavourite = isFavourite;
 
     [this.currentWidth, this.currentHeight] = this.calculateInitialDimensions();
     this.setPixelDimensions();
@@ -93,6 +96,18 @@ class ModalImage {
       this.element.classList.add(...rotationClasses[newOrientation]);
     }
     this.rotation = newOrientation;
+  }
+
+  toggleFavourite(favouriteButton) {
+    this.isFavourite = !this.isFavourite;
+    const icon = favouriteButton.children[0];
+    if (this.isFavourite) {
+      // eslint-disable-next-line no-param-reassign
+      icon.src = 'icons/star-fill.svg';
+    } else {
+      // eslint-disable-next-line no-param-reassign
+      icon.src = 'icons/star.svg';
+    }
   }
 
   close() {

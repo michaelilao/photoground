@@ -1,8 +1,8 @@
 const fs = require('fs');
 const path = require('path');
-const { deleteFileFlag } = require('../config');
+const { deleteFileFlag, photoLimit } = require('../config');
 // eslint-disable-next-line max-len
-const { modifyPhoto, createPhotosDirectory, createPhotoRecords, getPhotoBatchStatus, getPhotoList, deletePhotoRecord, checkUserExceedPhotoLimit } = require('./services');
+const { modifyPhoto, createPhotosDirectory, createPhotoRecords, getPhotoBatchStatus, getPhotoList, deletePhotoRecord, getPhotoCount } = require('./services');
 const { getUserPhotoPath } = require('./utils');
 
 const upload = async (req, res) => {
@@ -17,7 +17,15 @@ const upload = async (req, res) => {
   }
 
   // Check is user is above photo limit
-  await checkUserExceedPhotoLimit(req.user.userId);
+  const numPhotos = await getPhotoCount(req.user.userId);
+  if (numPhotos > photoLimit) {
+    return res.status(400).json({
+      error: true,
+      message: `you have reached your photo limit, ${numPhotos}/${photoLimit} `,
+      status: 400,
+    });
+  }
+
   // Create a photo record for each uploaded file and move to user folder
   const batchId = await createPhotoRecords(req.body.files, req.user.userId);
   return res.status(200).json({
@@ -96,8 +104,8 @@ const remove = async (req, res) => {
 };
 
 const save = async (req, res) => {
-  const { photoId, rotate } = req.body;
-  const modifiedPhoto = await modifyPhoto(req.user.userId, photoId, { rotate });
+  const { photoId, rotate, isFavourite } = req.body;
+  const modifiedPhoto = await modifyPhoto(req.user.userId, photoId, { rotate, isFavourite });
 
   if (modifiedPhoto.error) {
     return res.status(modifiedPhoto.status).json({

@@ -1,5 +1,5 @@
 <% if (locals.photos && photos.length > 0) { photos.forEach(function(photo, i){ %>
-  <div class="p-1 self-start gallery-item" id="<%= photo.photoId %>" style="background-color:<%= photo.hex%>">
+  <div class="p-1 self-start gallery-item" id="<%= photo.photoId %>" style="background-color:<%= photo.hex%>" data-is-favourite="<%= photo.isFavourite %>">
     <img class="sm:max-w-80 sm:max-h-80 sm:min-w-52 sm:min-h-52" loading="<%= i < 5 ? "eager" :"lazy" %>" src="<%= photo.src %>">
   </div>
 <% })} else { %>

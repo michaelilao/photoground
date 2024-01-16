@@ -1,6 +1,7 @@
 {
-    "html.validate.styles": false,
-    "css.lint.vendorPrefix": "ignore",
-    "css.lint.propertyIgnoredDueToDisplay":"ignore",
-    "css.lint.unknownAtRules":"ignore"
+  "html.validate.styles": false,
+  "css.lint.vendorPrefix": "ignore",
+  "css.lint.propertyIgnoredDueToDisplay": "ignore",
+  "css.lint.unknownAtRules": "ignore",
+  "tailwindCSS.lint.cssConflict": "ignore"
 }

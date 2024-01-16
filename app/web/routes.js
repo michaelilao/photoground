@@ -63,6 +63,14 @@ router.get('/login', (req, res) => {
   return res.redirect('/');
 });
 
+router.get('/register', (req, res) => {
+  const user = authenticateWeb(req);
+  if (!user) {
+    return res.render('pages/register');
+  }
+  return res.redirect('/');
+});
+
 router.get('/upload', (req, res) => {
   const user = authenticateWeb(req);
   if (!user) {

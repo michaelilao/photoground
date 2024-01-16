@@ -213,6 +213,15 @@ const modifyPhoto = async (userId, photoId, options) => {
     modifiedImage = modifiedImage.rotate(options.rotate);
   }
 
+  if ('isFavourite' in options) {
+    const intIsFavourite = options.isFavourite ? 1 : 0;
+    connection.run(photoScripts.updatePhoto([photosSchema.isFavourite]), [intIsFavourite, photoId], (updateErr) => {
+      if (updateErr) {
+        console.error(updateErr);
+      }
+    });
+  }
+
   return modifiedImage.toBuffer((bufferErr, buffer) => {
     if (bufferErr) {
       return { error: true, message: 'error updating photo', status: 500 };
@@ -226,28 +235,22 @@ const modifyPhoto = async (userId, photoId, options) => {
   });
 };
 
-const checkUserExceedPhotoLimit = async (userId) => {
+const getPhotoCount = async (userId) => {
   const connection = await db();
   try {
     const numPhotos = await new Promise((resolve, reject) => {
-      console.log()
-      connection.get(photoScripts.photoScripts, [userId], async (err, row) => {
+      connection.get(photoScripts.getUserPhotoCount, [userId], async (err, row) => {
         if (err) {
           reject(err);
         }
-
-        if (row && row?.userId) {
-          return resolve(row);
-        }
-
-        return resolve(false);
+        resolve(row['COUNT(*)']);
       });
     });
-    console.log(numPhotos);
+    return numPhotos;
   } catch (err) {
-    console.log(err);
+    console.error(err);
+    return { error: true, message: 'error getting photo limits', status: 500 };
   }
-  return { error: true, message: 'error updating photo', status: 500 };
 };
 module.exports = {
   createPhotosDirectory,
@@ -257,5 +260,5 @@ module.exports = {
   getPhotoList,
   deletePhotoRecord,
   modifyPhoto,
-  checkUserExceedPhotoLimit,
+  getPhotoCount,
 };

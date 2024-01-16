@@ -8,6 +8,8 @@ const modalCloseButton = document.getElementById('modal-close-button');
 const modalImageContainer = document.getElementById('modal-image-container');
 const rotateLeftButton = document.getElementById('photo-rotate-left');
 const rotateRightButton = document.getElementById('photo-rotate-right');
+const favouriteButton = document.getElementById('photo-favourite');
+
 const actionRow = document.getElementById('action-row');
 
 const deleteButton = document.getElementById('photo-delete');
@@ -51,9 +53,17 @@ function toggleModal() {
   document.body.classList.toggle('overflow-hidden');
 }
 
-function modalOpen(imageSrc, itemId) {
+function modalOpen(imageSrc, itemId, isFavourite) {
   // Show actions and hide confirm
+
   modalImage.src = imageSrc;
+
+  const icon = favouriteButton.children[0];
+  if (isFavourite > 0) {
+    icon.src = 'icons/star-fill.svg';
+  } else {
+    icon.src = 'icons/star.svg';
+  }
 
   actionRow.classList.remove('hidden');
   deleteConfirmRow.classList.add('hidden');
@@ -64,7 +74,7 @@ function modalOpen(imageSrc, itemId) {
   modalImage.onload = () => {
     const containerWidth = modalImageContainer.offsetWidth;
     const containerHeight = modalImageContainer.offsetHeight;
-    currentItem = new ModalImage(itemId, imageSrc, modalImage, containerWidth, containerHeight);
+    currentItem = new ModalImage(itemId, imageSrc, modalImage, containerWidth, containerHeight, isFavourite);
   };
 }
 
@@ -90,7 +100,7 @@ async function savePhoto() {
     const url = '/api/v1/photos/save';
 
     const response = await fetch(url, {
-      body: JSON.stringify({ photoId: currentItem.id, rotate: currentItem.rotation }),
+      body: JSON.stringify({ photoId: currentItem.id, rotate: currentItem.rotation, isFavourite: currentItem.isFavourite }),
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
@@ -153,6 +163,8 @@ deleteConfirmButton.addEventListener('click', () => deletePhoto(), false);
 saveButton.addEventListener('click', () => showSave(), false);
 saveCancelButton.addEventListener('click', () => hideSave(), false);
 saveConfirmButton.addEventListener('click', () => savePhoto(), false);
+
+favouriteButton.addEventListener('click', () => currentItem.toggleFavourite(favouriteButton), false);
 
 document.addEventListener('keydown', (e) => {
   if (e.type === 'keydown' && e.key === 'Escape') {

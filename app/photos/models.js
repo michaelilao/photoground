@@ -13,7 +13,8 @@ const photosSchema = {
   hex: 'hex',
   dateOriginal: 'date_original',
   latitude: 'latitude',
-  longitude: 'longitude'
+  longitude: 'longitude',
+  isFavourite: 'is_favourite'
 };
 
 const upload = Joi.object({
@@ -52,6 +53,7 @@ const photo = Joi.object({
 const save = Joi.object({
   photoId: Joi.string().required(),
   rotate: Joi.number().valid(0, 90, 180, 270, 360),
+  isFavourite: Joi.boolean()
 });
 
 module.exports = { upload, status, list, photosSchema, photo, save };
