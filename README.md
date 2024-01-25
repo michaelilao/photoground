@@ -67,8 +67,11 @@ cd photoground
 
 3. Install the dependencies:
 
-```sh
-npm install
+```
+npm install --global yarn // if you do not have it installed yet
+yarn install
+yarn add sharp --ignore-engines
+
 ```
 
 4. Create your .env file
