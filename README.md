@@ -106,30 +106,30 @@ npm test
 
 ### Backend
 
-- [] documentation for api swagger
-- [] dynamic db statements / orm
-- [] extract out db layer and file system layer
-- [] favourite and tags
+- [ ] documentation for api swagger
+- [ ] dynamic db statements / orm
+- [ ] extract out db layer and file system layer
+- [ ] favourite and tags
 
 ### Frontend
 
-- [] dynamic gallery
-- [] poll for recently added photos, poll for 30s after landing
-- [] put modal image in its own class, better structure
+- [ ] dynamic gallery
+- [ ] poll for recently added photos, poll for 30s after landing
+- [ ] put modal image in its own class, better structure
 
 ### Cloud & Hosting
 
-- [] SEO, sitemap.xml, searchable on google
-- [] pipelines
+- [ ] SEO, sitemap.xml, searchable on google
+- [ ] pipelines
 
 ### Misc
 
-- [] documentation/readme
+- [x] documentation/readme
 
 ### Bugs
 
-- [] rotate bugs after saving - hard to recreate
-- [] modal image/height sometimes not fitting
+- [ ] rotate bugs after saving - hard to recreate
+- [ ] modal image/height sometimes not fitting
 
 ---
 
