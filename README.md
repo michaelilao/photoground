@@ -15,6 +15,11 @@
 	<img src="https://img.shields.io/github/languages/count/michaelilao/photoground?style=default&color=0080ff" alt="repo-language-count">
 <p>
 <p align="center">
+  <img src="https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB">
+  <img src="https://img.shields.io/badge/nginx-%23009639.svg?style=for-the-badge&logo=nginx&logoColor=white">
+  <img src="https://img.shields.io/badge/DigitalOcean-%230167ff.svg?style=for-the-badge&logo=digitalOcean&logoColor=white">
+</p>
+<p align="center">
   <img src="https://raw.githubusercontent.com/michaelilao/photoground/main/docs/readme_image.png" alt="website snippet">
 </p>
 <hr>
