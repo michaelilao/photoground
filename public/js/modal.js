@@ -100,7 +100,7 @@ async function savePhoto() {
     const url = '/api/v1/photos/save';
 
     const response = await fetch(url, {
-      body: JSON.stringify({ photoId: currentItem.id, rotate: currentItem.rotation, isFavourite: currentItem.isFavourite }),
+      body: JSON.stringify({ photoId: currentItem.id, rotate: currentItem.rotation, isFavourite: Boolean(currentItem.isFavourite) }),
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
@@ -112,6 +112,7 @@ async function savePhoto() {
     const data = await response.json();
     if (data.error || data.status !== 200) {
       toast(data.message, 'error');
+      return;
     }
 
     setTimeout(() => {
