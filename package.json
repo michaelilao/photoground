@@ -8,7 +8,7 @@
     "dev": "nodemon server.js  --trace-sync-io",
     "test": "cross-env NODE_ENV=test API_PORT=4002 jest --forceExit --coverage --runInBand",
     "lint": "eslint . && prettier --check .",
-    "tailwind:css": "postcss public/tailwind.css -o public/generated.css"
+    "tailwind": "postcss public/tailwind.css -o public/generated.css"
   },
   "author": "",
   "license": "ISC",

@@ -9,16 +9,18 @@
           <h2 class="text-2xl py-2 font-bold">your photos all the time, however you want.</h2>
           <p class="">photoground gives you the tools to host and deploy your own photo storage solution, our open-source backend allows you to extend and modify our tool to your needs.</p>
           <div class="py-4">
-            <button class="btn btn-primary">get started</button>
-            <button class="btn btn-secondary">view code</button>
+            <a href="\login">
+              <button class="btn btn-primary">get started</button>
+            </a>
+            <a target="_blank" rel="noopener noreferrer" href="https://github.com/michaelilao/photoground">
+              <button class="btn btn-secondary">view code</button>
+            </a>
           </div>
         </div>
       </section>
       <section>
-        <div class="flex gap-6 flex-wrap w-11/12 md:w-10/12 m-auto justify-center sm:justify-center">
-          <%- include('../partials/gallery'); %>
-        </div>
-      </section>    
+        <div class="flex gap-6 flex-wrap w-11/12 md:w-10/12 m-auto justify-center sm:justify-center"><%- include('../partials/gallery'); %></div>
+      </section>
     </main>
     <%- include('../partials/footer'); %>
   </body>

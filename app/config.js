@@ -11,5 +11,5 @@ module.exports = {
   maxImageWidth: 2240,
   maxImageHeight: 1260,
   uploadLimit: mb * 10,
-  photoLimit: 20, // only 30 photos for now
+  photoLimit: 30, // only 30 photos for now
 };
