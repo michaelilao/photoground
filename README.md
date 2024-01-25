@@ -2,13 +2,12 @@
   <img src="https://raw.githubusercontent.com/michaelilao/photoground/main/public/android-chrome-512x512.png" width="100" />
 </p>
 <p align="center">
+  <a href="https://photoground.dev/">
     <h1 align="center">photoground</h1>
+  </a>
 </p>
 <p align="center">
     <em><code>photo gallery and storage solution</code></em>
-</p>
-<p align="center">
-  <img src="https://raw.githubusercontent.com/michaelilao/photoground/main/docs/readme_image.png" alt="website snippet">
 </p>
 <p align="center">
 	<img src="https://img.shields.io/github/last-commit/michaelilao/photoground?style=default&color=0080ff" alt="last-commit">
@@ -16,7 +15,7 @@
 	<img src="https://img.shields.io/github/languages/count/michaelilao/photoground?style=default&color=0080ff" alt="repo-language-count">
 <p>
 <p align="center">
-	<!-- default option, no dependency badges. -->
+  <img src="https://raw.githubusercontent.com/michaelilao/photoground/main/docs/readme_image.png" alt="website snippet">
 </p>
 <hr>
 
@@ -67,23 +66,29 @@ cd photoground
 npm install
 ```
 
+4. Create your .env file
+
+```
+cp .sample.env .env
+```
+
 ### Running photoground
 
 Use the following command to run photoground in dev mode:
 
-```
+```sh
 npm run dev
 ```
 
 To deploy photoground use:
 
-```
+```sh
 npm run start
 ```
 
 photoground uses tailwind, when any new classes are added run:
 
-```
+```sh
 npm run tailwind
 ```
 
@@ -91,7 +96,7 @@ npm run tailwind
 
 To execute tests, run:
 
-```
+```sh
 npm test
 ```
 
@@ -99,13 +104,32 @@ npm test
 
 ## Features to Implement
 
-- [x] `► INSERT-TASK-1`
-- [ ] `► INSERT-TASK-2`
-- [ ] `► ...`
+### Backend
 
----
+- [] documentation for api swagger
+- [] dynamic db statements / orm
+- [] extract out db layer and file system layer
+- [] favourite and tags
 
-This project is protected under the [SELECT-A-LICENSE](https://choosealicense.com/licenses) License. For more details, refer to the [LICENSE](https://choosealicense.com/licenses/) file.
+### Frontend
+
+- [] dynamic gallery
+- [] poll for recently added photos, poll for 30s after landing
+- [] put modal image in its own class, better structure
+
+### Cloud & Hosting
+
+- [] SEO, sitemap.xml, searchable on google
+- [] pipelines
+
+### Misc
+
+- [] documentation/readme
+
+### Bugs
+
+- [] rotate bugs after saving - hard to recreate
+- [] modal image/height sometimes not fitting
 
 ---
 
